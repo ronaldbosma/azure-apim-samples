@@ -1,0 +1,40 @@
+@baseUrl = https://echo.playground.azure-api.net/api
+# @baseUrl = https://<your-apim-service-name>.azure-api.net/catch-all-api
+
+###
+
+# Get Resource
+GET {{baseUrl}}/resource?param1=foo&param2=bar
+
+###
+
+# Create Resource
+POST {{baseUrl}}/resource
+
+{
+    "foo": "bar",
+    "method": "POST"
+}
+
+###
+
+# Modify Resource
+PUT {{baseUrl}}/resource
+
+{
+    "foo": "bar",
+    "method": "PUT"
+}
+
+###
+
+# Dete Resource
+DELETE {{baseUrl}}/resource
+
+{
+    "foo": "bar",
+    "method": "DELETE"
+}
+
+###
+
