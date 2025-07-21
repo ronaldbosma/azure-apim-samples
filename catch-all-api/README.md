@@ -10,7 +10,7 @@ You need to have an API Management service already created in Azure. See [Azure 
 
 Follow these steps to deploy the API:
 1. Open a terminal and navigate to this directory.
-1. Run the following command to deploy the Catch-All API using Azure CLI. Replace `<your-resource-group-name>` and `<your-api-management-service-name>`with your actual values.
+1. Run the following command to deploy the API using Azure CLI. Replace `<your-resource-group-name>` and `<your-api-management-service-name>`with your actual values.
 
     ```
     az deployment group create `
@@ -26,4 +26,4 @@ Follow these steps to deploy the API:
 Follow these steps to test the API:
 1. Open the [tests.http](tests.http) file in an IDE that supports HTTP requests, such as Visual Studio Code.
 1. The base URL is configured to `https://echo.playground.azure-api.net/api` by default. Execute the requests to call the Echo API directly.
-1. Change the base URL to your API Management service URL, e.g., `https://<your-api-management-service-name>.azure-api.net/catch-all`, and execute the requests again to call the Echo API via the Catch-All API.
+1. Change the base URL to your API Management service URL, e.g. `https://<your-api-management-service-name>.azure-api.net/catch-all`. Execute the requests again to call the Echo API via the Catch-All API.
