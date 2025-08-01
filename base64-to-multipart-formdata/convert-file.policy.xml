@@ -1,0 +1,87 @@
+<policies>
+    <inbound>
+        <base />
+
+        <!-- 
+            The largest maximum request size that you can configure is 4MB. 
+            Set size-exceeded-action to ignore if you expected larger requests.
+        -->
+        <validate-content unspecified-content-type-action="prevent" max-size="4194304" size-exceeded-action="prevent">
+            <content type="application/json" validate-as="json" action="prevent" />
+        </validate-content>
+
+        <set-backend-service base-url="https://func-aisquick-sdc-5spzh.azurewebsites.net" />
+        <rewrite-uri template="/api/process-file" copy-unmatched-params="false" />
+        
+        <set-header name="Content-Type" exists-action="override">
+            <value>multipart/form-data; boundary=b5f36865-8df9-4d14-8d2c-4ae2eb78d0ec</value>
+        </set-header>
+        <set-body>@{
+            // The Process File function expects a multipart/form-data request with the following parts:
+            // - fileId: string           - Id of the file to be processed
+            // - file:   string($binary)  - The file that is to be processed
+            //
+            // See https://andrewlock.net/reading-json-and-binary-data-from-multipart-form-data-sections-in-aspnetcore/
+            // for an excellent explanation of how a multipart/form-data request is structured.
+            //
+            // We're not constructing the entire request as a string where the file contents is converted using Encoding.UTF8.GetString(),
+            // because that would corrupt the binary data of the file.
+
+            var request = context.Request.Body.As<JObject>();
+            string id = request.Value<string>("id");
+            string name = request.Value<string>("name");
+            string mimeType = request.Value<string>("mimeType");
+
+            // Convert file to binary data
+            string base64Content = request.Value<string>("base64Content");
+            byte[] binaryData = Convert.FromBase64String(base64Content);
+            
+            var formData = new List<byte>();
+
+            // Part 1: file id
+            AppendLine($"--b5f36865-8df9-4d14-8d2c-4ae2eb78d0ec");
+            AppendLine("Content-Disposition: form-data; name=\"fileId\"");
+            AppendLine("");
+            AppendLine(id);
+
+            // Part 2: file metadata
+            AppendLine($"--b5f36865-8df9-4d14-8d2c-4ae2eb78d0ec");
+            AppendLine($"Content-Disposition: form-data; name=\"file\"; filename=\"{name}\"");
+            AppendLine($"Content-Type: {mimeType}");
+            AppendLine("");
+
+            // Part 3: file content (raw bytes, not base64)
+            formData.AddRange(binaryData);
+            AppendLine("");
+
+            // End boundary
+            AppendLine($"--b5f36865-8df9-4d14-8d2c-4ae2eb78d0ec--");
+
+            return formData.ToArray();
+            
+
+            // Helper methods to add strings with proper encoding
+            void AppendLine(string s)
+            {
+                AppendString(s + "\r\n");
+            }
+
+            void AppendString(string s)
+            {
+                formData.AddRange(Encoding.UTF8.GetBytes(s));
+            }
+        }</set-body>
+    </inbound>
+    
+    <backend>
+        <base />
+    </backend>
+
+    <outbound>
+        <base />
+    </outbound>
+
+    <on-error>
+        <base />
+    </on-error>
+</policies>

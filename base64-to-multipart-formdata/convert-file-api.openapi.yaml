@@ -1,0 +1,63 @@
+openapi: 3.0.1
+info:
+  title: Convert File API
+  version: 1.0.0
+paths:
+  /:
+    post:
+      operationId: convertFile
+      summary: Convert a Base64-encoded file
+      description: |
+        Converts a Base64-encoded file to a multipart/form-data request and 
+        forwards it to an Azure Function which returns it as a downloadable file.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - id
+                - name
+                - mimeType
+                - base64Content
+              properties:
+                id:
+                  type: string
+                  description: Unique identifier for the file
+                name:
+                  type: string
+                  description: Name of the file
+                mimeType:
+                  type: string
+                  description: MIME type of the file
+                base64Content:
+                  type: string
+                  description: Base64-encoded content of the file
+            example:
+              id: "12345"
+              name: "sample.jpg"
+              mimeType: "image/jpeg"
+              base64Content: "...BASE64_CONTENT..."
+      responses:
+        '200':
+          description: File converted successfully
+          content:
+            '*/*':
+              schema:
+                type: string
+                format: binary
+          headers:
+            Content-Type:
+              description: The MIME type of the converted file (matches the mimeType from the request)
+              schema:
+                type: string
+            Content-Disposition:
+              description: Indicates the file should be downloaded with the original filename
+              schema:
+                type: string
+                example: 'attachment; filename="sample.jpg"'
+        '400':
+          description: Invalid request
+        '500':
+          description: Server error
