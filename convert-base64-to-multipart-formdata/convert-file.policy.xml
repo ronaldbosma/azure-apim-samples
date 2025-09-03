@@ -21,9 +21,6 @@
             // - fileId: string           - Id of the file to be processed
             // - file:   string($binary)  - The file that is to be processed
             //
-            // See https://andrewlock.net/reading-json-and-binary-data-from-multipart-form-data-sections-in-aspnetcore/
-            // for an excellent explanation of how a multipart/form-data request is structured.
-            //
             // We're not constructing the entire request as a string where the file contents is converted using Encoding.UTF8.GetString(),
             // because that would corrupt the binary data of the file.
 
