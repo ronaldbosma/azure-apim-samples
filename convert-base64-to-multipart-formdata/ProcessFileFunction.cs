@@ -6,7 +6,8 @@ using Microsoft.Extensions.Logging;
 namespace AISQuick.FunctionApp;
 
 /// <summary>
-/// Function that retrieves a file as part of a multipart form data request and returns it as a file stream.
+/// Function that retrieves a file as part of a multipart form data request
+/// and returns it as a file stream.
 /// </summary>
 public class ProcessFileFunction
 {
@@ -23,20 +24,25 @@ public class ProcessFileFunction
     {
         try
         {
+            // 1. Read the form data
             var formdata = await request.ReadFormAsync();
 
+            // 2. Extract the file ID from the form data and log it
             string? fileId = formdata["fileId"];
             _logger.LogInformation("File ID: {FileID}", fileId);
 
+            // 3. Extract the binary file from the form data. Throw an exception if it's not present.
             var file = request.Form.Files["file"];
             if (file == null)
             {
                 return new BadRequestObjectResult("File not provided.");
             }
 
+            // 4. Log the file details
             _logger.LogInformation("File Name: {FileName}, Content Type: {ContentType}, Size: {Size} bytes",
                 file.FileName, file.ContentType, file.Length);
 
+            // 5. Return the file as a stream.
             var stream = file.OpenReadStream();
             return new FileStreamResult(stream, file.ContentType)
             {
