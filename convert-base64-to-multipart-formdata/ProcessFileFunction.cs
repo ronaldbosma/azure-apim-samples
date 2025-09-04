@@ -6,7 +6,7 @@ using Microsoft.Extensions.Logging;
 namespace AISQuick.FunctionApp;
 
 /// <summary>
-/// Function that retrieves a file as part of a multipart form data request
+/// Function that receives a file as part of a multipart form data request
 /// and returns it as a file stream.
 /// </summary>
 public class ProcessFileFunction
