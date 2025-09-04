@@ -1,6 +1,7 @@
 # Convert Base64-encoded file to a downloadable file
-POST https://apim-aisquick-sdc-5spzh.azure-api.net/convert-file
+POST https://<your-apim-service-name>.azure-api.net
 Content-Type: application/json
+#Ocp-Apim-Subscription-Key: <your-subscription-key>
 
 {
     "id": "12345",
