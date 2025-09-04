@@ -25,10 +25,10 @@ public class ProcessFileFunction
         try
         {
             // 1. Read the form data
-            var formdata = await request.ReadFormAsync();
+            var formData = await request.ReadFormAsync();
 
             // 2. Extract the file ID from the form data and log it
-            string? fileId = formdata["fileId"];
+            string? fileId = formData["fileId"];
             _logger.LogInformation("File ID: {FileID}", fileId);
 
             // 3. Extract the binary file from the form data. Throw an exception if it's not present.
