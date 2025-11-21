@@ -27,28 +27,26 @@ resource backendApi 'Microsoft.ApiManagement/service/apis@2024-06-01-preview' = 
   name: 'backend-api'
   parent: apiManagementService
   properties: {
-    displayName: 'Backend API'
     path: 'backend'
+    format: 'openapi+json'
+    value: loadTextContent('backend-api.openapi.yaml')
+    type: 'http'
     protocols: [ 
       'https' 
     ]
     subscriptionRequired: false // No subscription required for demo purposes
   }
+}
 
-  resource getResponseHeadersOperation 'operations' = {
-    name: 'get-response-headers'
-    properties: {
-      displayName: 'Get Response Headers'
-      method: 'GET'
-      urlTemplate: '/response-headers'
-    }
+resource getResponseHeadersOperation 'Microsoft.ApiManagement/service/apis/operations@2024-06-01-preview' existing = {
+  name: 'get-response-headers'
+  parent: backendApi
   
-    resource policies 'policies' = {
-      name: 'policy'
-      properties: {
-        format: 'rawxml'
-        value: loadTextContent('get-response-headers.xml')
-      }
+  resource policies 'policies' = {
+    name: 'policy'
+    properties: {
+      format: 'rawxml'
+      value: loadTextContent('get-response-headers.xml')
     }
   }
 }

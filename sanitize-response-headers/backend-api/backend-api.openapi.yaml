@@ -1,0 +1,40 @@
+openapi: 3.0.1
+info:
+  title: Backend API
+  description: API for testing response header sanitization
+  version: 1.0.0
+paths:
+  /response-headers:
+    get:
+      summary: Get Response Headers
+      description: Returns a configurable number of safe and unsafe response headers
+      operationId: get-response-headers
+      parameters:
+        - name: numberOfSafeHeadersToReturn
+          in: query
+          description: Number of safe headers to return (0-50)
+          required: true
+          schema:
+            type: integer
+            minimum: 0
+            maximum: 50
+        - name: numberOfUnsafeHeadersToReturn
+          in: query
+          description: Number of unsafe headers to return (0-50)
+          required: true
+          schema:
+            type: integer
+            minimum: 0
+            maximum: 50
+      responses:
+        '200':
+          description: Successful response with headers
+          headers:
+            Safe-Header-1:
+              description: Example safe header
+              schema:
+                type: string
+            Unsafe-Header-1:
+              description: Example unsafe header
+              schema:
+                type: string
