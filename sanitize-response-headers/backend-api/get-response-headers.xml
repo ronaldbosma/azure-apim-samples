@@ -1,0 +1,28 @@
+<policies>
+    <inbound>
+        <base />
+    </inbound>
+
+    <backend>
+        <!-- The base policy has been removed because we're not calling any backend. -->
+    </backend>
+
+    <outbound>
+        <base />
+        <set-status code="200" />
+        
+        <set-variable name="indexOfSafeHeadersToAdd" value="@(1)" />
+        <set-variable name="numberOfSafeHeadersToReturn" value="@(3)" />
+
+        <retry condition="@((int)context.Variables["indexOfSafeHeadersToAdd"] <= (int)context.Variables["numberOfSafeHeadersToReturn"])" count="50" interval="0">
+            <set-header name="@($"Safe-Header-{context.Variables["indexOfSafeHeadersToAdd"]}")" exists-action="override">
+                <value>@($"Safe-Header-{context.Variables["indexOfSafeHeadersToAdd"]}")</value>
+            </set-header>
+            <set-variable name="indexOfSafeHeadersToAdd" value="@( (int)context.Variables["indexOfSafeHeadersToAdd"] + 1 )" />
+        </retry>
+    </outbound>
+
+    <on-error>
+        <base />
+    </on-error>
+</policies>
