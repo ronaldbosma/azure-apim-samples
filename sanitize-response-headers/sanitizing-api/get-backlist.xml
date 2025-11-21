@@ -12,6 +12,54 @@
 
     <outbound>
         <base />
+        <!-- 
+            Remove specific security-sensitive headers based on OWASP recommendations.
+            Reference: https://cheatsheetseries.owasp.org/cheatsheets/HTTP_Headers_Cheat_Sheet.html
+        -->
+        <set-header name="Server" exists-action="delete" />
+        <set-header name="X-Powered-By" exists-action="delete" />
+        <set-header name="X-AspNet-Version" exists-action="delete" />
+        <set-header name="X-AspNetMvc-Version" exists-action="delete" />
+
+        <!-- Determine which response headers should be removed based on blacklist criteria. -->
+        <set-variable name="responseHeadersToRemove" value="@{
+            var headersToRemove = context.Response.Headers.Keys.Where(k => {
+                var headerKey = k.ToLowerInvariant();
+                
+                // Headers starting with 'unsafe-' should be removed
+                return headerKey.StartsWith("unsafe-");
+            });
+            
+            return string.Join(",", headersToRemove);
+        }" />
+
+        <!-- To prevent exceptions, only execute header removal if there are headers to remove. -->
+        <choose>
+            <when condition="@(!string.IsNullOrWhiteSpace((string)context.Variables["responseHeadersToRemove"]))">
+                <!-- Initialize the index of the header to remove. -->
+                <set-variable name="indexOfHeaderToRemove" value="@(0)" />
+
+                <!-- Determine the number of headers to remove. -->
+                <set-variable name="numberOfHeadersToRemove" value="@{
+                    string responseHeadersToRemove = (string)context.Variables["responseHeadersToRemove"];
+                    return responseHeadersToRemove.Split(',').Length;
+                }" />
+
+                <!-- 
+                    Use the retry policy as a while loop to remove all unwanted headers. 
+                    Note that the maximum number of retries possible is 50.
+                -->
+                <retry condition="@((int)context.Variables["indexOfHeaderToRemove"] < (int)context.Variables["numberOfHeadersToRemove"])" count="50" interval="0">
+                    <set-header name="@{
+                        string[] headersToRemoveArray = ((string)context.Variables["responseHeadersToRemove"]).Split(',');
+                        int index = (int)context.Variables["indexOfHeaderToRemove"];
+                        return headersToRemoveArray[index];
+                    }" exists-action="delete" />
+
+                    <set-variable name="indexOfHeaderToRemove" value="@((int)context.Variables["indexOfHeaderToRemove"] + 1)" />
+                </retry>
+            </when>
+        </choose>
     </outbound>
 
     <on-error>
