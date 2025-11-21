@@ -1,6 +1,9 @@
 <policies>
     <inbound>
         <base />
+        <validate-parameters specified-parameter-action="ignore" unspecified-parameter-action="ignore">
+            <query specified-parameter-action="prevent" unspecified-parameter-action="prevent" />
+        </validate-parameters>
     </inbound>
 
     <backend>
