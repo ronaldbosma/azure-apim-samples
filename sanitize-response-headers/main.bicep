@@ -18,3 +18,9 @@ module backendApi 'backend-api/backend-api.bicep' = {
     apiManagementServiceName: apiManagementServiceName
   }
 }
+
+module sanitizingApi 'sanitizing-api/sanitizing-api.bicep' = {
+  params: {
+    apiManagementServiceName: apiManagementServiceName
+  }
+}
