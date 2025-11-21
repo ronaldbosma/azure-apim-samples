@@ -10,7 +10,7 @@ paths:
       description: Returns a configurable number of safe and unsafe response headers
       operationId: get-response-headers
       parameters:
-        - name: numberOfSafeHeadersToReturn
+        - name: numberOfSafeHeadersToReturnFromBackend
           in: query
           description: Number of safe headers to return (0-250)
           required: true
@@ -18,7 +18,7 @@ paths:
             type: integer
             minimum: 0
             maximum: 250
-        - name: numberOfUnsafeHeadersToReturn
+        - name: numberOfUnsafeHeadersToReturnFromBackend
           in: query
           description: Number of unsafe headers to return (0-250)
           required: true

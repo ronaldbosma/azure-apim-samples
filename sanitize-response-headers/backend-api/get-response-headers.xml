@@ -15,11 +15,11 @@
         <set-status code="200" />
 
         <!--
-            Add safe headers based on the numberOfSafeHeadersToReturn query parameter.
+            Add safe headers based on the numberOfSafeHeadersToReturnFromBackend query parameter.
         -->
         
         <set-variable name="indexOfSafeHeadersToAdd" value="@(1)" />
-        <set-variable name="numberOfSafeHeadersToReturn" value="@(int.Parse(context.Request.Url.Query.GetValueOrDefault("numberOfSafeHeadersToReturn", "0")))" />
+        <set-variable name="numberOfSafeHeadersToReturn" value="@(int.Parse(context.Request.Url.Query.GetValueOrDefault("numberOfSafeHeadersToReturnFromBackend", "0")))" />
 
         <choose>
             <!-- The logic in a retry policy always executes at least once. This check prevent a header from being returns when numberOfSafeHeadersToReturn is 0. -->
@@ -39,12 +39,11 @@
         
 
         <!--
-            Add unsafe headers based on the numberOfUnsafeHeadersToReturn query parameter.
+            Add unsafe headers based on the numberOfUnsafeHeadersToReturnFromBackend query parameter.
         -->
         
         <set-variable name="indexOfUnsafeHeadersToAdd" value="@(1)" />
-        <set-variable name="numberOfUnsafeHeadersToReturn" value="@(int.Parse(context.Request.Url.Query.GetValueOrDefault("numberOfUnsafeHeadersToReturn", "0")))" />
-
+        <set-variable name="numberOfUnsafeHeadersToReturn" value="@(int.Parse(context.Request.Url.Query.GetValueOrDefault("numberOfUnsafeHeadersToReturnFromBackend", "0")))" />
         <choose>
             <!-- The logic in a retry policy always executes at least once. This check prevent a header from being returns when numberOfUnsafeHeadersToReturn is 0. -->
             <when condition="@((int)context.Variables["numberOfUnsafeHeadersToReturn"] > 0)">
