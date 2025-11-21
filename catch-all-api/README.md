@@ -10,7 +10,7 @@ You need to have an API Management service already created in Azure. See [Azure 
 
 Follow these steps to deploy the API to an existing API Management service:
 1. Open a terminal and navigate to this directory.
-1. Run the following command to deploy the API using Azure CLI. Replace `<your-resource-group-name>` and `<your-api-management-service-name>`with your actual values.
+1. Run the following command to deploy the API using Azure CLI. Replace `<your-resource-group-name>` and `<your-api-management-service-name>` with your actual values.
 
     ```
     az deployment group create `
