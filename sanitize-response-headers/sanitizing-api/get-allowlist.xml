@@ -1,0 +1,83 @@
+<policies>
+    <inbound>
+        <base />
+        <!-- Forward requests to the Backend API. -->
+        <set-backend-service base-url="{{apim-gateway-url}}/backend" />
+        <rewrite-uri template="response-headers" />
+    </inbound>
+
+    <backend>
+        <base />
+    </backend>
+
+    <outbound>
+        <base />
+
+        <!-- Determine which response headers are not in the allowed list and should be removed. -->
+        <set-variable name="responseHeadersToRemove" value="@{
+            HashSet<string> allowedHeaders = new HashSet<string>(StringComparer.InvariantCultureIgnoreCase) {
+                "cache-control",
+                "connection",
+                "content-disposition",
+                "content-encoding",
+                "content-length",
+                "content-security-policy",
+                "content-type",
+                "date",
+                "etag",
+                "expires",
+                "last-modified",
+                "link",
+                "memento-datetime",
+                "ocp-apim-trace-location",
+                "p3p",
+                "pragma",
+                "referrer-policy",
+                "request-context",
+                "retry-after",
+                "set-cookie",
+                "strict-transport-security",
+                "transfer-encoding",
+                "vary",
+                "www-authenticate",
+                "x-content-type-options",
+                "x-ms-request-id"
+            };
+            
+            // Headers that are not in the allowlist and do not start with 'safe-' should be removed
+            var headersToRemove = context.Response.Headers.Keys.Where(k => {
+                var headerKey = k.ToLowerInvariant();
+                return !allowedHeaders.Contains(headerKey) && !headerKey.StartsWith("safe-");
+            });
+
+            return string.Join(",", headersToRemove);
+        }" />
+
+        <!-- Initialize the index of the header to remove. -->
+        <set-variable name="indexOfHeaderToRemove" value="@(0)" />
+
+        <!-- Determine the number of headers to remove. -->
+        <set-variable name="numberOfHeadersToRemove" value="@{
+            string responseHeadersToRemove = (string)context.Variables["responseHeadersToRemove"];
+            return string.IsNullOrWhiteSpace(responseHeadersToRemove) ? 0 : responseHeadersToRemove.Split(',').Length;
+        }" />
+
+        <!-- 
+            Use the retry policy as a while loop to remove all unwanted headers. 
+            Note that the maximum number of retries possible is 50.
+        -->
+        <retry condition="@((int)context.Variables["indexOfHeaderToRemove"] < (int)context.Variables["numberOfHeadersToRemove"])" count="50" interval="0">
+            <set-header name="@{
+                string[] headersToRemoveArray = ((string)context.Variables["responseHeadersToRemove"]).Split(',');
+                int index = (int)context.Variables["indexOfHeaderToRemove"];
+                return headersToRemoveArray[index];
+            }" exists-action="delete" />
+
+            <set-variable name="indexOfHeaderToRemove" value="@((int)context.Variables["indexOfHeaderToRemove"] + 1)" />
+        </retry>
+    </outbound>
+
+    <on-error>
+        <base />
+    </on-error>
+</policies>

@@ -1,0 +1,69 @@
+openapi: 3.0.1
+info:
+  title: Sanitizing API
+  description: API for testing different approaches to response header sanitization
+  version: 1.0.0
+paths:
+  /no-sanitization:
+    get:
+      summary: No Sanitization
+      description: Returns safe and unsafe headers without sanitization
+      operationId: get-no-sanitization
+      parameters:
+        - name: numberOfSafeHeadersToReturnFromBackend
+          in: query
+          description: Number of safe headers to return from Backend API
+          required: true
+          schema:
+            type: integer
+        - name: numberOfUnsafeHeadersToReturnFromBackend
+          in: query
+          description: Number of unsafe headers to return from Backend API
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Successful response
+  /allowlist:
+    get:
+      summary: Allowlist Sanitization
+      description: Returns headers after allowlist sanitization
+      operationId: get-allowlist
+      parameters:
+        - name: numberOfSafeHeadersToReturnFromBackend
+          in: query
+          description: Number of safe headers to return from Backend API
+          required: true
+          schema:
+            type: integer
+        - name: numberOfUnsafeHeadersToReturnFromBackend
+          in: query
+          description: Number of unsafe headers to return from Backend API
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Successful response
+  /blocklist:
+    get:
+      summary: Blocklist Sanitization
+      description: Returns headers after blocklist sanitization
+      operationId: get-blocklist
+      parameters:
+        - name: numberOfSafeHeadersToReturnFromBackend
+          in: query
+          description: Number of safe headers to return from Backend API
+          required: true
+          schema:
+            type: integer
+        - name: numberOfUnsafeHeadersToReturnFromBackend
+          in: query
+          description: Number of unsafe headers to return from Backend API
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Successful response
