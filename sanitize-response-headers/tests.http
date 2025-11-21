@@ -1,0 +1,26 @@
+@baseUrl = https://<your-api-management-service-name>.azure-api.net
+@numberOfSafeHeadersToReturnFromBackend = 5
+@numberOfUnsafeHeadersToReturnFromBackend = 5
+
+###
+
+# Get no headers from Backend API directly - should return no headers
+GET {{baseUrl}}/backend/response-headers?numberOfSafeHeadersToReturnFromBackend={{numberOfSafeHeadersToReturnFromBackend}}&numberOfUnsafeHeadersToReturnFromBackend={{numberOfUnsafeHeadersToReturnFromBackend}}
+
+
+###
+
+# Get headers via Sanitizing API with no sanitization - should return all headers
+GET {{baseUrl}}/sanitizing/no-sanitization?numberOfSafeHeadersToReturnFromBackend={{numberOfSafeHeadersToReturnFromBackend}}&numberOfUnsafeHeadersToReturnFromBackend={{numberOfUnsafeHeadersToReturnFromBackend}}
+
+
+###
+
+# Get headers via Sanitizing API with allowlist sanitization - should return only allowlisted headers
+GET {{baseUrl}}/sanitizing/allowlist?numberOfSafeHeadersToReturnFromBackend={{numberOfSafeHeadersToReturnFromBackend}}&numberOfUnsafeHeadersToReturnFromBackend={{numberOfUnsafeHeadersToReturnFromBackend}}
+
+
+###
+
+# Get headers via Sanitizing API with blocklist sanitization - should return only non-blocklisted headers
+GET {{baseUrl}}/sanitizing/blocklist?numberOfSafeHeadersToReturnFromBackend={{numberOfSafeHeadersToReturnFromBackend}}&numberOfUnsafeHeadersToReturnFromBackend={{numberOfUnsafeHeadersToReturnFromBackend}}
