@@ -36,6 +36,30 @@
                 </retry>
             </when>
         </choose>
+        
+
+        <!--
+            Add unsafe headers based on the numberOfUnsafeHeadersToReturn query parameter.
+        -->
+        
+        <set-variable name="indexOfUnsafeHeadersToAdd" value="@(1)" />
+        <set-variable name="numberOfUnsafeHeadersToReturn" value="@(int.Parse(context.Request.Url.Query.GetValueOrDefault("numberOfUnsafeHeadersToReturn", "0")))" />
+
+        <choose>
+            <!-- The logic in a retry policy always executes at least once. This check prevent a header from being returns when numberOfUnsafeHeadersToReturn is 0. -->
+            <when condition="@((int)context.Variables["numberOfUnsafeHeadersToReturn"] > 0)">
+                
+                <!-- The retry policy is used as for-loop workaround. By using nested retries we bypasses the 50-count limit of the retry policy. -->
+                <retry condition="@((int)context.Variables["indexOfUnsafeHeadersToAdd"] <= (int)context.Variables["numberOfUnsafeHeadersToReturn"])" count="50" interval="0">
+                    <retry condition="@((int)context.Variables["indexOfUnsafeHeadersToAdd"] <= (int)context.Variables["numberOfUnsafeHeadersToReturn"])" count="50" interval="0">
+                        <set-header name="@($"Unsafe-Header-{context.Variables["indexOfUnsafeHeadersToAdd"]}")" exists-action="override">
+                            <value>@($"Unsafe-Header-{context.Variables["indexOfUnsafeHeadersToAdd"]}")</value>
+                        </set-header>
+                        <set-variable name="indexOfUnsafeHeadersToAdd" value="@( (int)context.Variables["indexOfUnsafeHeadersToAdd"] + 1 )" />
+                    </retry>
+                </retry>
+            </when>
+        </choose>
     </outbound>
 
     <on-error>
