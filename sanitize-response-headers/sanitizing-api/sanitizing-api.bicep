@@ -68,28 +68,28 @@ resource getNoSanitizationOperation 'Microsoft.ApiManagement/service/apis/operat
   }
 }
 
-resource getWhitelistOperation 'Microsoft.ApiManagement/service/apis/operations@2024-06-01-preview' existing = {
-  name: 'get-whitelist'
+resource getAllowlistOperation 'Microsoft.ApiManagement/service/apis/operations@2024-06-01-preview' existing = {
+  name: 'get-allowlist'
   parent: sanitizingApi
 
   resource policies 'policies' = {
     name: 'policy'
     properties: {
       format: 'rawxml'
-      value: loadTextContent('get-whitelist.xml')
+      value: loadTextContent('get-allowlist.xml')
     }
   }
 }
 
-resource getBacklistOperation 'Microsoft.ApiManagement/service/apis/operations@2024-06-01-preview' existing = {
-  name: 'get-backlist'
+resource getBlocklistOperation 'Microsoft.ApiManagement/service/apis/operations@2024-06-01-preview' existing = {
+  name: 'get-blocklist'
   parent: sanitizingApi
 
   resource policies 'policies' = {
     name: 'policy'
     properties: {
       format: 'rawxml'
-      value: loadTextContent('get-backlist.xml')
+      value: loadTextContent('get-blocklist.xml')
     }
   }
 }

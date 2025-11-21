@@ -21,7 +21,7 @@
         <set-header name="X-AspNet-Version" exists-action="delete" />
         <set-header name="X-AspNetMvc-Version" exists-action="delete" />
 
-        <!-- Determine which response headers should be removed based on blacklist criteria. -->
+        <!-- Determine which response headers should be removed based on blocklist criteria. -->
         <set-variable name="responseHeadersToRemove" value="@{
             var headersToRemove = context.Response.Headers.Keys.Where(k => {
                 var headerKey = k.ToLowerInvariant();

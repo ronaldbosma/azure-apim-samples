@@ -25,11 +25,11 @@ paths:
       responses:
         '200':
           description: Successful response
-  /whitelist:
+  /allowlist:
     get:
-      summary: Whitelist Sanitization
-      description: Returns headers after whitelist sanitization
-      operationId: get-whitelist
+      summary: Allowlist Sanitization
+      description: Returns headers after allowlist sanitization
+      operationId: get-allowlist
       parameters:
         - name: numberOfSafeHeadersToReturnFromBackend
           in: query
@@ -46,11 +46,11 @@ paths:
       responses:
         '200':
           description: Successful response
-  /backlist:
+  /blocklist:
     get:
-      summary: Backlist Sanitization
-      description: Returns headers after backlist (blacklist) sanitization
-      operationId: get-backlist
+      summary: Blocklist Sanitization
+      description: Returns headers after blocklist sanitization
+      operationId: get-blocklist
       parameters:
         - name: numberOfSafeHeadersToReturnFromBackend
           in: query
