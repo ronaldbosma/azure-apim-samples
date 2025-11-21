@@ -12,20 +12,20 @@ paths:
       parameters:
         - name: numberOfSafeHeadersToReturn
           in: query
-          description: Number of safe headers to return (0-50)
+          description: Number of safe headers to return (0-250)
           required: true
           schema:
             type: integer
             minimum: 0
-            maximum: 50
+            maximum: 250
         - name: numberOfUnsafeHeadersToReturn
           in: query
-          description: Number of unsafe headers to return (0-50)
+          description: Number of unsafe headers to return (0-250)
           required: true
           schema:
             type: integer
             minimum: 0
-            maximum: 50
+            maximum: 250
       responses:
         '200':
           description: Successful response with headers
