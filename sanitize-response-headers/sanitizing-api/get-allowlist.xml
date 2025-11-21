@@ -47,7 +47,7 @@
             // Headers that are not in the allowlist and do not start with 'safe-' should be removed
             var headersToRemove = context.Response.Headers.Keys.Where(k => {
                 var headerKey = k.ToLowerInvariant();
-                return !allowedHeaders.Contains(k) && !k.StartsWith("safe-")
+                return !allowedHeaders.Contains(headerKey) && !headerKey.StartsWith("safe-");
             });
 
             return string.Join(",", headersToRemove);
