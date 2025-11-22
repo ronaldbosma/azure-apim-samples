@@ -15,39 +15,38 @@
 
         <!-- Determine which response headers are not in the allowed list and should be removed. -->
         <set-variable name="responseHeadersToRemove" value="@{
-            HashSet<string> allowedHeaders = new HashSet<string>(StringComparer.InvariantCultureIgnoreCase) {
-                "cache-control",
-                "connection",
-                "content-disposition",
-                "content-encoding",
-                "content-length",
-                "content-security-policy",
-                "content-type",
-                "date",
-                "etag",
-                "expires",
-                "last-modified",
-                "link",
-                "memento-datetime",
-                "ocp-apim-trace-location",
-                "p3p",
-                "pragma",
-                "referrer-policy",
-                "request-context",
-                "retry-after",
-                "set-cookie",
-                "strict-transport-security",
-                "transfer-encoding",
-                "vary",
-                "www-authenticate",
-                "x-content-type-options",
+            HashSet<string> allowlist = new HashSet<string>(StringComparer.InvariantCultureIgnoreCase) {
+                "Cache-Control",
+                "Connection",
+                "Content-disposition",
+                "Content-encoding",
+                "Content-length",
+                "Content-security-policy",
+                "Content-type",
+                "Date",
+                "ETag",
+                "Expires",
+                "Last-Modified",
+                "Link",
+                "Memento-Datetime",
+                "Ocp-Apim-Trace-Location",
+                "P3P",
+                "Pragma",
+                "Referrer-Policy",
+                "Request-Context",
+                "Retry-After",
+                "Set-Cookie",
+                "Strict-Transport-Security",
+                "Transfer-Encoding",
+                "Vary",
+                "WWW-Authenticate",
+                "X-Content-Type-Options",
                 "x-ms-request-id"
             };
             
             // Headers that are not in the allowlist and do not start with 'safe-' should be removed
-            var headersToRemove = context.Response.Headers.Keys.Where(k => {
-                var headerKey = k.ToLowerInvariant();
-                return !allowedHeaders.Contains(headerKey) && !headerKey.StartsWith("safe-");
+            var headersToRemove = context.Response.Headers.Keys.Where(key => {
+                return !allowlist.Contains(key) && !key.StartsWith("safe-");
             });
 
             return string.Join(",", headersToRemove);
