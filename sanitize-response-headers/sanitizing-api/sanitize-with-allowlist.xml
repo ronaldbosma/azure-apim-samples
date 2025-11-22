@@ -44,9 +44,9 @@
                 "x-ms-request-id"
             };
             
-            // Headers that are not in the allowlist and do not start with 'safe-' should be removed
+            // Headers that are not in the allowlist and do not start with 'Safe-' should be removed
             var headersToRemove = context.Response.Headers.Keys.Where(key => {
-                return !allowlist.Contains(key) && !key.StartsWith("safe-");
+                return !allowlist.Contains(key) && !key.StartsWith("Safe-", StringComparison.InvariantCultureIgnoreCase);
             });
 
             return string.Join(",", headersToRemove);

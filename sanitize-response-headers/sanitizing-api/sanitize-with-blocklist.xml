@@ -22,9 +22,9 @@
                 "X-AspNetMvc-Version"
             };
 
-            // Headers in the blocklist or that start with 'unsafe-' should be removed
+            // Headers in the blocklist or that start with 'Unsafe-' should be removed
             var headersToRemove = context.Response.Headers.Keys.Where(key => {
-                return blocklist.Contains(key) || key.StartsWith("unsafe-");
+                return blocklist.Contains(key) || key.StartsWith("Unsafe-", StringComparison.InvariantCultureIgnoreCase);
             });
             
             return string.Join(",", headersToRemove);
