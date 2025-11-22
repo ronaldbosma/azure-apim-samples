@@ -1,0 +1,28 @@
+<policies>
+    <inbound>
+        <base />
+        <!-- Forward requests to the Backend API. -->
+        <set-backend-service base-url="{{apim-gateway-url}}/backend" />
+        <rewrite-uri template="response-headers" />
+    </inbound>
+
+    <backend>
+        <base />
+    </backend>
+
+    <outbound>
+        <base />
+        
+        <set-header name="Server" exists-action="delete" />
+        <set-header name="X-Powered-By" exists-action="delete" />
+        <set-header name="X-AspNet-Version" exists-action="delete" />
+        <set-header name="X-AspNetMvc-Version" exists-action="delete" />
+        <set-header name="Unsafe-Header-1" exists-action="delete" />
+        <set-header name="Unsafe-Header-2" exists-action="delete" />
+        <set-header name="Unsafe-Header-3" exists-action="delete" />
+    </outbound>
+
+    <on-error>
+        <base />
+    </on-error>
+</policies>

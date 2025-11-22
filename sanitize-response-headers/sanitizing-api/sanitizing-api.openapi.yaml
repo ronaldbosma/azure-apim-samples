@@ -67,3 +67,24 @@ paths:
       responses:
         '200':
           description: Successful response
+  /sanitize-explicitly:
+    get:
+      summary: Explicit Sanitization
+      description: Returns headers after explicit sanitization
+      operationId: sanitize-explicitly
+      parameters:
+        - name: numberOfSafeHeadersToReturnFromBackend
+          in: query
+          description: Number of safe headers to return from Backend API
+          required: true
+          schema:
+            type: integer
+        - name: numberOfUnsafeHeadersToReturnFromBackend
+          in: query
+          description: Number of unsafe headers to return from Backend API
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Successful response

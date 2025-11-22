@@ -93,3 +93,16 @@ resource sanitizeWithBlocklistOperation 'Microsoft.ApiManagement/service/apis/op
     }
   }
 }
+
+resource sanitizeExplicitlyOperation 'Microsoft.ApiManagement/service/apis/operations@2024-06-01-preview' existing = {
+  name: 'sanitize-explicitly'
+  parent: sanitizingApi
+
+  resource policies 'policies' = {
+    name: 'policy'
+    properties: {
+      format: 'rawxml'
+      value: loadTextContent('sanitize-explicitly.xml')
+    }
+  }
+}

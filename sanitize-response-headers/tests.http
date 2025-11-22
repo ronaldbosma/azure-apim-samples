@@ -16,6 +16,12 @@ GET {{baseUrl}}/sanitizing/no-sanitization?numberOfSafeHeadersToReturnFromBacken
 
 ###
 
+# Get headers via Sanitizing API with explicit sanitization - should remove explicitly listed headers
+GET {{baseUrl}}/sanitizing/sanitize-explicitly?numberOfSafeHeadersToReturnFromBackend={{numberOfSafeHeadersToReturnFromBackend}}&numberOfUnsafeHeadersToReturnFromBackend={{numberOfUnsafeHeadersToReturnFromBackend}}
+
+
+###
+
 # Get headers via Sanitizing API with allowlist sanitization - should return only allowlisted headers
 GET {{baseUrl}}/sanitizing/sanitize-with-allowlist?numberOfSafeHeadersToReturnFromBackend={{numberOfSafeHeadersToReturnFromBackend}}&numberOfUnsafeHeadersToReturnFromBackend={{numberOfUnsafeHeadersToReturnFromBackend}}
 
