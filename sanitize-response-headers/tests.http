@@ -4,7 +4,7 @@
 
 ###
 
-# Get no headers from Backend API directly - should return no headers
+# Get no headers from Backend API directly - should return all headers
 GET {{baseUrl}}/backend/response-headers?numberOfSafeHeadersToReturnFromBackend={{numberOfSafeHeadersToReturnFromBackend}}&numberOfUnsafeHeadersToReturnFromBackend={{numberOfUnsafeHeadersToReturnFromBackend}}
 
 
