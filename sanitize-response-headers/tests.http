@@ -1,6 +1,6 @@
 @baseUrl = https://<your-api-management-service-name>.azure-api.net
-@numberOfSafeHeadersToReturnFromBackend = 5
-@numberOfUnsafeHeadersToReturnFromBackend = 5
+@numberOfSafeHeadersToReturnFromBackend = 3
+@numberOfUnsafeHeadersToReturnFromBackend = 3
 
 ###
 
