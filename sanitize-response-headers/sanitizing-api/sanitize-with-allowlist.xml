@@ -61,7 +61,7 @@
                 <!-- Determine the number of headers to remove. -->
                 <set-variable name="numberOfHeadersToRemove" value="@{
                     string responseHeadersToRemove = (string)context.Variables["responseHeadersToRemove"];
-                    return string.IsNullOrWhiteSpace(responseHeadersToRemove) ? 0 : responseHeadersToRemove.Split(',').Length;
+                    return responseHeadersToRemove.Split(',').Length;
                 }" />
 
                 <!-- 
