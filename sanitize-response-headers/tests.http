@@ -17,10 +17,10 @@ GET {{baseUrl}}/sanitizing/no-sanitization?numberOfSafeHeadersToReturnFromBacken
 ###
 
 # Get headers via Sanitizing API with allowlist sanitization - should return only allowlisted headers
-GET {{baseUrl}}/sanitizing/allowlist?numberOfSafeHeadersToReturnFromBackend={{numberOfSafeHeadersToReturnFromBackend}}&numberOfUnsafeHeadersToReturnFromBackend={{numberOfUnsafeHeadersToReturnFromBackend}}
+GET {{baseUrl}}/sanitizing/sanitize-with-allowlist?numberOfSafeHeadersToReturnFromBackend={{numberOfSafeHeadersToReturnFromBackend}}&numberOfUnsafeHeadersToReturnFromBackend={{numberOfUnsafeHeadersToReturnFromBackend}}
 
 
 ###
 
 # Get headers via Sanitizing API with blocklist sanitization - should return only non-blocklisted headers
-GET {{baseUrl}}/sanitizing/blocklist?numberOfSafeHeadersToReturnFromBackend={{numberOfSafeHeadersToReturnFromBackend}}&numberOfUnsafeHeadersToReturnFromBackend={{numberOfUnsafeHeadersToReturnFromBackend}}
+GET {{baseUrl}}/sanitizing/sanitize-with-blocklist?numberOfSafeHeadersToReturnFromBackend={{numberOfSafeHeadersToReturnFromBackend}}&numberOfUnsafeHeadersToReturnFromBackend={{numberOfUnsafeHeadersToReturnFromBackend}}

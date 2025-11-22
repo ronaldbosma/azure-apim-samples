@@ -55,41 +55,41 @@ resource sanitizingApi 'Microsoft.ApiManagement/service/apis@2024-06-01-preview'
 
 // Operations (existing) with attached policies
 
-resource getNoSanitizationOperation 'Microsoft.ApiManagement/service/apis/operations@2024-06-01-preview' existing = {
-  name: 'get-no-sanitization'
+resource noSanitizationOperation 'Microsoft.ApiManagement/service/apis/operations@2024-06-01-preview' existing = {
+  name: 'no-sanitization'
   parent: sanitizingApi
 
   resource policies 'policies' = {
     name: 'policy'
     properties: {
       format: 'rawxml'
-      value: loadTextContent('get-no-sanitization.xml')
+      value: loadTextContent('no-sanitization.xml')
     }
   }
 }
 
-resource getAllowlistOperation 'Microsoft.ApiManagement/service/apis/operations@2024-06-01-preview' existing = {
-  name: 'get-allowlist'
+resource sanitizeWithAllowlistOperation 'Microsoft.ApiManagement/service/apis/operations@2024-06-01-preview' existing = {
+  name: 'sanitize-with-allowlist'
   parent: sanitizingApi
 
   resource policies 'policies' = {
     name: 'policy'
     properties: {
       format: 'rawxml'
-      value: loadTextContent('get-allowlist.xml')
+      value: loadTextContent('sanitize-with-allowlist.xml')
     }
   }
 }
 
-resource getBlocklistOperation 'Microsoft.ApiManagement/service/apis/operations@2024-06-01-preview' existing = {
-  name: 'get-blocklist'
+resource sanitizeWithBlocklistOperation 'Microsoft.ApiManagement/service/apis/operations@2024-06-01-preview' existing = {
+  name: 'sanitize-with-blocklist'
   parent: sanitizingApi
 
   resource policies 'policies' = {
     name: 'policy'
     properties: {
       format: 'rawxml'
-      value: loadTextContent('get-blocklist.xml')
+      value: loadTextContent('sanitize-with-blocklist.xml')
     }
   }
 }

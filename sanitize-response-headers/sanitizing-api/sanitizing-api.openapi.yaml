@@ -8,7 +8,7 @@ paths:
     get:
       summary: No Sanitization
       description: Returns safe and unsafe headers without sanitization
-      operationId: get-no-sanitization
+      operationId: no-sanitization
       parameters:
         - name: numberOfSafeHeadersToReturnFromBackend
           in: query
@@ -25,11 +25,11 @@ paths:
       responses:
         '200':
           description: Successful response
-  /allowlist:
+  /sanitize-with-allowlist:
     get:
       summary: Allowlist Sanitization
       description: Returns headers after allowlist sanitization
-      operationId: get-allowlist
+      operationId: sanitize-with-allowlist
       parameters:
         - name: numberOfSafeHeadersToReturnFromBackend
           in: query
@@ -46,11 +46,11 @@ paths:
       responses:
         '200':
           description: Successful response
-  /blocklist:
+  /sanitize-with-blocklist:
     get:
       summary: Blocklist Sanitization
       description: Returns headers after blocklist sanitization
-      operationId: get-blocklist
+      operationId: sanitize-with-blocklist
       parameters:
         - name: numberOfSafeHeadersToReturnFromBackend
           in: query
