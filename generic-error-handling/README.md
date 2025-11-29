@@ -2,9 +2,9 @@
 
 This sample demonstrates how to implement generic error handling in Azure API Management. 
 It includes:
-- A Backend API that simulates a service returning various status codes.
-- A Error Handling API that calls the Backend API and implements different error handling scenarios.
 - A global policy that implements generic error handling logic.
+- A Error Handling API that calls the Backend API and implements different error handling scenarios.
+- A Backend API that simulates a service returning various status codes.
 
 
 ## How it works
