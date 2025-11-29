@@ -9,34 +9,34 @@ namespace GenericErrorHandling.Tests
 
         [TestMethod]
         // Success codes codes
-        [DataRow(HttpStatusCode.OK, HttpStatusCode.OK)]
-        [DataRow(HttpStatusCode.Created, HttpStatusCode.Created)]
-        [DataRow(HttpStatusCode.NoContent, HttpStatusCode.NoContent)]
+        [DataRow(200, 200)]
+        [DataRow(201, 201)]
+        [DataRow(204, 204)]
         // 4xx status codes
-        [DataRow(HttpStatusCode.BadRequest, HttpStatusCode.BadRequest)]
-        [DataRow(HttpStatusCode.Unauthorized, HttpStatusCode.Unauthorized)]
-        [DataRow(HttpStatusCode.Forbidden, HttpStatusCode.Forbidden)]
-        [DataRow(HttpStatusCode.NotFound, HttpStatusCode.NotFound)]
-        [DataRow(HttpStatusCode.Conflict, HttpStatusCode.Conflict)]
-        [DataRow(HttpStatusCode.RequestEntityTooLarge, HttpStatusCode.RequestEntityTooLarge)]
-        [DataRow(HttpStatusCode.TooManyRequests, HttpStatusCode.TooManyRequests)]
+        [DataRow(400, 400)]
+        [DataRow(401, 401)]
+        [DataRow(403, 403)]
+        [DataRow(404, 404)]
+        [DataRow(409, 409)]
+        [DataRow(413, 413)]
+        [DataRow(429, 429)]
         // 5xx status codes
-        [DataRow(HttpStatusCode.InternalServerError, HttpStatusCode.InternalServerError)]
-        [DataRow(HttpStatusCode.NotImplemented, HttpStatusCode.NotImplemented)]
-        [DataRow(HttpStatusCode.BadGateway, HttpStatusCode.BadGateway)]
-        [DataRow(HttpStatusCode.ServiceUnavailable, HttpStatusCode.ServiceUnavailable)]
-        public async Task BackendApiReturnsProvidedStatusCode(HttpStatusCode backendStatusCode, HttpStatusCode expectedStatusCode)
+        [DataRow(500, 500)]
+        [DataRow(501, 501)]
+        [DataRow(502, 502)]
+        [DataRow(503, 503)]
+        public async Task BackendApiReturnsProvidedStatusCode(int backendStatusCode, int expectedStatusCode)
         {
             // Arrange
             var baseUrl = TestContext.Properties["ApimBaseUrl"]?.ToString() ?? throw new InvalidOperationException("ApimBaseUrl not configured");
             using var httpClient = new HttpClient() { BaseAddress = new Uri(baseUrl) };
 
             // Act
-            var response = await httpClient.GetAsync($"backend/{(int)backendStatusCode}");
+            var response = await httpClient.GetAsync($"backend/{backendStatusCode}");
 
             // Assert
             Assert.IsNotNull(response);
-            Assert.AreEqual(expectedStatusCode, response.StatusCode);
+            Assert.AreEqual(expectedStatusCode, (int)response.StatusCode);
         }
     }
 }
