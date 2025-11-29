@@ -8,6 +8,7 @@
     </backend>
 
     <outbound>
+        <!-- No error handling, which means the default behaviour applies -->
         <base />
     </outbound>
 
