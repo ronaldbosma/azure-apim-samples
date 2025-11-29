@@ -3,6 +3,7 @@
         <base />
         
         <set-backend-service backend-id="localhost" />
+        <rewrite-uri template="/backend/{statusCode}" copy-unmatched-params="true" />
     </inbound>
 
     <backend>

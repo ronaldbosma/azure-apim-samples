@@ -1,7 +1,6 @@
 <policies>
     <inbound>
         <base />
-        <rewrite-uri template="/backend/{statusCode}" copy-unmatched-params="true" />
     </inbound>
 
     <backend>
