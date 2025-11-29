@@ -5,8 +5,12 @@
     </backend>
     <outbound>
         <choose>
-            <!-- If error and status code should be passed through, then return status code, else return 500 Internal Server Error -->
-            <when condition="@(context.Response.StatusCode >= 400)">
+            <!-- 
+                If an error occured and it has not been handled yet:
+                    - if status code should be passed through, then return status code as is
+                    - else return 500 Internal Server Error
+            -->
+            <when condition="@(context.Response.StatusCode >= 400 && context.Variables.GetValueOrDefault<bool>("error-handled", false) == false)">
                 <set-variable name="passthroughErrorStatusCodes" value="404,409,413,429" />
                 <choose>
                     <when condition="@{
