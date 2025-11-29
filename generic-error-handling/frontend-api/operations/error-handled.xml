@@ -9,7 +9,7 @@
     </backend>
 
     <outbound>
-        <set-variable name="errorHandled" value="@(true)" />
+        <set-variable name="error-handled" value="@(true)" />
         <base />
     </outbound>
 

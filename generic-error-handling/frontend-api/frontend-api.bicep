@@ -75,27 +75,27 @@ resource frontendApi 'Microsoft.ApiManagement/service/apis@2024-10-01-preview' =
 }
 
 resource defaultBehaviourOperation 'Microsoft.ApiManagement/service/apis/operations@2024-10-01-preview' existing = {
-  name: 'defaultBehaviour'
+  name: 'default-behaviour'
   parent: frontendApi
 
   resource policies 'policies' = {
     name: 'policy'
     properties: {
       format: 'rawxml'
-      value: loadTextContent('operations/defaultBehaviour.xml')
+      value: loadTextContent('operations/default-behaviour.xml')
     }
   }
 }
 
 resource errorHandledOperation 'Microsoft.ApiManagement/service/apis/operations@2024-10-01-preview' existing = {
-  name: 'errorHandled'
+  name: 'error-handled'
   parent: frontendApi
 
   resource policies 'policies' = {
     name: 'policy'
     properties: {
       format: 'rawxml'
-      value: loadTextContent('operations/errorHandled.xml')
+      value: loadTextContent('operations/error-handled.xml')
     }
   }
 }
