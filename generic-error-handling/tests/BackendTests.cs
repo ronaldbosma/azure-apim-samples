@@ -10,7 +10,7 @@
         /// </summary>
         [TestMethod]
         [Retry(1)] // After a deployment, the first test might fail if APIM is not yet ready. So, we retry once if necessary.
-        // Success codes codes
+        // Success codes
         [DataRow(200, 200)]
         [DataRow(201, 201)]
         [DataRow(204, 204)]
