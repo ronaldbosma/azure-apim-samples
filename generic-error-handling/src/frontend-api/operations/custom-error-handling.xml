@@ -10,14 +10,14 @@
 
     <outbound>
         <choose>
-            <!-- We turn a 201 into a 418. Because we don't set error-handled to true, this should be turned into a 500 by the global error handling. -->
+            <!-- We turn a 201 into a 418. Because we don't set errorHandled to true, this should be turned into a 500 by the global error handling. -->
             <when condition="@(context.Response.StatusCode == 201)">
                 <set-status code="418" reason="I'm a teapot" />
             </when>
-            <!-- We turn a 204 into a 418. Because we set error-handled to true, the global error handling is skipped and it is returned as is. -->
+            <!-- We turn a 204 into a 418. Because we set errorHandled to true, the global error handling is skipped and it is returned as is. -->
             <when condition="@(context.Response.StatusCode == 204)">
                 <set-status code="418" reason="I'm a teapot" />
-                <set-variable name="error-handled" value="@(true)" />
+                <set-variable name="errorHandled" value="@(true)" />
             </when>
         </choose>
 
