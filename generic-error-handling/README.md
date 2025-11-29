@@ -10,8 +10,8 @@ It includes:
 ## How it works
 
 In the outbound section on the global scope, there is error handling that follows these requirements:
-- By default, if an error occured and the `errorHandled` variable is not true
-	- If the status code is in the `passthroughErrorStatusCodes` variable (default list: 404 Not Found, 409 Conflict, 413 Content Too Large, 429 Too Many Requests
+- By default, if an error occured and the `errorHandled` variable is not set or false:
+	- If the status code is in the `passthroughErrorStatusCodes` variable (default list: 404 Not Found, 409 Conflict, 413 Content Too Large, 429 Too Many Requests):
 		- Do not change the status code
         - Clear the body
     - For all other errors, return a 500 Internal Server Error with an empty body
@@ -45,10 +45,12 @@ Follow these steps to deploy the APIs to an existing API Management service:
 
 The [tests](./tests) folder contains a .NET 10 solution with automated tests that validate the different error handling scenarios.
 
-Before running the tests:
-- Update the value of the `ApimBaseUrl` in [test.runsettings](./tests/test.runsettings) to your API Management service URL.
+### Before running the tests
 
-Run the tests in Visual Studio:
+Update the value of the `ApimBaseUrl` in [test.runsettings](./tests/test.runsettings) to your API Management service URL.
+
+### Run the tests in Visual Studio
+
 - Open the `GenericErrorHandling.Tests.slnx` solution in Visual Studio.
 - Build the solution.
 - Execute the tests.
@@ -61,7 +63,8 @@ Run the tests in Visual Studio:
   
   Select the `test.runsettings` file explicitly in Visual Studio via: Test > Configure Run Settings > Select Solution Wide runsettings File > select the `test.runsettings` file.
 
-Run the tests from the command line:
+### Run the tests from the command line
+
 - Open a terminal and navigate to the [tests](./tests) folder.
 - Run the following command:
   
