@@ -27,6 +27,7 @@ namespace GenericErrorHandling.Tests
         /// all other status codes are converted into a 500.
         /// </summary>
         [TestMethod]
+        [Retry(1)] // After a deployment, the first test might fail if APIM is not yet ready. So, we retry once if necessary.
         // Success codes codes
         [DataRow(200, 200)]
         [DataRow(201, 201)]
@@ -60,6 +61,7 @@ namespace GenericErrorHandling.Tests
         /// All status codes are returned as is.
         /// </summary>
         [TestMethod]
+        [Retry(1)] // After a deployment, the first test might fail if APIM is not yet ready. So, we retry once if necessary.
         // Success codes codes
         [DataRow(200, 200)]
         [DataRow(201, 201)]
@@ -94,6 +96,7 @@ namespace GenericErrorHandling.Tests
         /// - For all other responses, the default is applied.
         /// </summary>
         [TestMethod]
+        [Retry(1)] // After a deployment, the first test might fail if APIM is not yet ready. So, we retry once if necessary.
         // Success codes codes
         [DataRow(200, 200)]
         [DataRow(201, 500)]
@@ -128,6 +131,7 @@ namespace GenericErrorHandling.Tests
         /// all other status codes are converted into a 500.
         /// </summary>
         [TestMethod]
+        [Retry(1)] // After a deployment, the first test might fail if APIM is not yet ready. So, we retry once if necessary.
         // Success codes codes
         [DataRow(200, 200)]
         [DataRow(201, 201)]

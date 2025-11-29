@@ -7,7 +7,11 @@ namespace GenericErrorHandling.Tests
     {
         public TestContext TestContext { get; set; }
 
+        /// <summary>
+        /// Calls the Backend API directly and verifies that the specified status code is returned.
+        /// </summary>
         [TestMethod]
+        [Retry(1)] // After a deployment, the first test might fail if APIM is not yet ready. So, we retry once if necessary.
         // Success codes codes
         [DataRow(200, 200)]
         [DataRow(201, 201)]
