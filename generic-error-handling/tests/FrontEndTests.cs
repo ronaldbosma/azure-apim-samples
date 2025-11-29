@@ -120,5 +120,39 @@ namespace GenericErrorHandling.Tests
             Assert.IsNotNull(response);
             Assert.AreEqual(expectedStatusCode, (int)response.StatusCode);
         }
+
+        /// <summary>
+        /// Calls the 'override-passthrough-error-codes' operation on the Frontend API.
+        /// The operation overrides the error status codes to passthrough,
+        /// which means status codes 401,403,404,503 from the backend are returned as is,
+        /// all other status codes are converted into a 500.
+        /// </summary>
+        [TestMethod]
+        // Success codes codes
+        [DataRow(200, 200)]
+        [DataRow(201, 201)]
+        [DataRow(204, 204)]
+        // 4xx status codes
+        [DataRow(400, 500)]
+        [DataRow(401, 401)]
+        [DataRow(403, 403)]
+        [DataRow(404, 404)]
+        [DataRow(409, 500)]
+        [DataRow(413, 500)]
+        [DataRow(429, 500)]
+        // 5xx status codes
+        [DataRow(500, 500)]
+        [DataRow(501, 500)]
+        [DataRow(502, 500)]
+        [DataRow(503, 503)]
+        public async Task OverridePassthroughErrorCodes(int backendStatusCode, int expectedStatusCode)
+        {
+            // Act
+            var response = await HttpClient!.GetAsync($"frontend/override-passthrough-error-codes/{backendStatusCode}");
+
+            // Assert
+            Assert.IsNotNull(response);
+            Assert.AreEqual(expectedStatusCode, (int)response.StatusCode);
+        }
     }
 }

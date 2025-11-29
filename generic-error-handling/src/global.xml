@@ -11,14 +11,22 @@
                     - else return 500 Internal Server Error
             -->
             <when condition="@(context.Response.StatusCode >= 400 && context.Variables.GetValueOrDefault<bool>("error-handled", false) == false)">
-                <set-variable name="passthroughErrorStatusCodes" value="404,409,413,429" />
                 <choose>
+                    <!-- Set the passthrough error status codes to a default set if not already set-->
+                    <when condition="@(!context.Variables.ContainsKey("passthroughErrorStatusCodes"))">
+                       <set-variable name="passthroughErrorStatusCodes" value="404,409,413,429" />
+                    </when>
+                </choose>
+
+                <choose>
+                    <!-- If the error status code is in the passthrough list, clear the body and return the status code as is -->
                     <when condition="@{
                         string[] passthroughErrorStatusCodes = ((string)context.Variables["passthroughErrorStatusCodes"]).Split(',');
                         return passthroughErrorStatusCodes.Contains(context.Response.StatusCode.ToString());
                     }">
                         <set-body />
                     </when>
+                    <!-- Otherwise, return a 500 Internal Server Error -->
                     <otherwise>
                         <set-status code="500" reason="Internal Server Error" />
                         <set-body />

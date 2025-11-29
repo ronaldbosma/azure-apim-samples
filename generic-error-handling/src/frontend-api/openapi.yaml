@@ -81,3 +81,34 @@ paths:
           description: Too many requests
         '500':
           description: Internal server error
+  /override-passthrough-error-codes/{statusCode}:
+    get:
+      summary: Override Passthrough Error Codes
+      description: Returns a response based on the specified HTTP status code to demonstrate overriding passthrough error codes.
+      operationId: override-passthrough-error-codes
+      parameters:
+        - name: statusCode
+          in: path
+          required: true
+          schema:
+            type: integer
+            minimum: 100
+            maximum: 599
+          description: The HTTP status code to return
+      responses:
+        '200':
+          description: Success
+        '201':
+          description: Created
+        '204':
+          description: No content
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not found
+        '500':
+          description: Internal server error
+        '503':
+          description: Service unavailable

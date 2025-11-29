@@ -112,3 +112,16 @@ resource customErrorHandlingOperation 'Microsoft.ApiManagement/service/apis/oper
     }
   }
 }
+
+resource overridePassthroughErrorCodesOperation 'Microsoft.ApiManagement/service/apis/operations@2024-10-01-preview' existing = {
+  name: 'override-passthrough-error-codes'
+  parent: frontendApi
+
+  resource policies 'policies' = {
+    name: 'policy'
+    properties: {
+      format: 'rawxml'
+      value: loadTextContent('operations/override-passthrough-error-codes.xml')
+    }
+  }
+}
