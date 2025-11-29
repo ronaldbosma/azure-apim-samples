@@ -6,6 +6,8 @@ It includes:
 - A Backend API that simulates a service returning various headers.
 - A Sanitizing API that applies policies to sanitize the response headers based on allowlist and blocklist methods.
 
+See the blog post [Sanitizing Response Headers in API Management](https://ronaldbosma.github.io/blog/2025/11/24/sanitizing-response-headers-in-api-management/) for a more detailed explanation.
+
 ## Deploy
 
 You need to have an API Management service already created in Azure. See [Azure Integration Services Quickstart](https://github.com/ronaldbosma/azure-integration-services-quickstart) for an easy way to create one.
