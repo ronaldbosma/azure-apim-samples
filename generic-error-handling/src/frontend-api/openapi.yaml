@@ -21,6 +21,10 @@ paths:
       responses:
         '200':
           description: Success
+        '201':
+          description: Created
+        '204':
+          description: No content
         '404':
           description: Not found
         '409':
