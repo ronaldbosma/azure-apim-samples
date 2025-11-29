@@ -8,7 +8,7 @@ paths:
     get:
       summary: Get response with specified status code
       description: Returns a response with the specified HTTP status code
-      operationId: getResponseByStatusCode
+      operationId: get-response-by-status-code
       parameters:
         - name: statusCode
           in: path
@@ -19,32 +19,5 @@ paths:
             maximum: 599
           description: The HTTP status code to return
       responses:
-        '200':
-          description: Successful response
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  statusCode:
-                    type: integer
-                  message:
-                    type: string
-        '400':
-          description: Bad request - invalid status code
-        '500':
-          description: Internal server error
-
-components:
-  securitySchemes:
-    apiKeyHeader:
-      type: apiKey
-      name: Ocp-Apim-Subscription-Key
-      in: header
-    apiKeyQuery:
-      type: apiKey
-      name: subscription-key
-      in: query
-security:
-  - apiKeyHeader: []
-  - apiKeyQuery: []
+        default:
+          description: Response with requested status code

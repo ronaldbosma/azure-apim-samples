@@ -38,14 +38,14 @@ resource backendApi 'Microsoft.ApiManagement/service/apis@2024-10-01-preview' = 
 }
 
 resource getResponseByStatusCodeOperation 'Microsoft.ApiManagement/service/apis/operations@2024-10-01-preview' existing = {
-  name: 'getResponseByStatusCode'
+  name: 'get-response-by-status-code'
   parent: backendApi
 
   resource policies 'policies' = {
     name: 'policy'
     properties: {
       format: 'rawxml'
-      value: loadTextContent('operations/getResponseByStatusCode.xml') 
+      value: loadTextContent('operations/get-response-by-status-code.xml') 
     }
   }
 }
