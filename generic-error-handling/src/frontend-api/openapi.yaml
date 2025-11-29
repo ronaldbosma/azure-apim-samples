@@ -54,8 +54,34 @@ paths:
             maximum: 599
           description: The HTTP status code to return
       responses:
-        default:
-          description: Response with requested status code
+        '200':
+          description: Success
+        '201':
+          description: Created
+        '204':
+          description: No content
+        '400':
+          description: Bad request
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not found
+        '409':
+          description: Conflict
+        '413':
+          description: Payload too large
+        '429':
+          description: Too many requests
+        '500':
+          description: Internal server error
+        '501':
+          description: Not implemented
+        '502':
+          description: Bad gateway
+        '503':
+          description: Service unavailable
   /custom-error-handling/{statusCode}:
     get:
       summary: Custom Error Handling
