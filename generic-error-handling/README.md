@@ -1,4 +1,4 @@
-# Generic Error Handling in API Management
+# Generic Error Handling
 
 This sample demonstrates how to implement generic error handling in Azure API Management. 
 It includes:
