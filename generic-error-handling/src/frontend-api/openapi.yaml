@@ -7,7 +7,9 @@ paths:
   /default-behaviour/{statusCode}:
     get:
       summary: Default Behaviour
-      description: Returns a response based on the specified HTTP status code to demonstrate default error handling behaviour.
+      description: |
+        Status codes 404, 409, 413, 429 from the backend are returned as is,
+        all other status codes are converted into a 500.
       operationId: default-behaviour
       parameters:
         - name: statusCode
@@ -38,7 +40,9 @@ paths:
   /error-handled/{statusCode}:
     get:
       summary: Error Handled
-      description: Returns a response based on the specified HTTP status code to demonstrate error handling behaviour where the operation specifies it handled the error.
+      description: |
+        There is no custom error handling in the operation. 
+        All status codes are returned as is.
       operationId: error-handled
       parameters:
         - name: statusCode
@@ -55,7 +59,10 @@ paths:
   /custom-error-handling/{statusCode}:
     get:
       summary: Custom Error Handling
-      description: Returns a response based on the specified HTTP status code to demonstrate custom error handling behaviour.
+      description: |
+        - A 201 is turned into a 418. Because we don't set error-handled to true, this should be turned into a 500 by the global error handling.
+        - A 204 is turned into a 418. Because we set error-handled to true, the global error handling is skipped and it is returned as is.
+        - For all other responses, the default is applied.
       operationId: custom-error-handling
       parameters:
         - name: statusCode
@@ -84,7 +91,10 @@ paths:
   /override-passthrough-error-codes/{statusCode}:
     get:
       summary: Override Passthrough Error Codes
-      description: Returns a response based on the specified HTTP status code to demonstrate overriding passthrough error codes.
+      description: |
+        The operation overrides the error status codes to passthrough,
+        which means status codes 401, 403, 404, 503 from the backend are returned as is,
+        all other status codes are converted into a 500.
       operationId: override-passthrough-error-codes
       parameters:
         - name: statusCode
