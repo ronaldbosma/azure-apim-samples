@@ -1,0 +1,19 @@
+<policies>
+    <inbound>
+        <base />
+        <rewrite-uri template="/backend/{statusCode}" copy-unmatched-params="true" />
+    </inbound>
+
+    <backend>
+        <base />
+    </backend>
+
+    <outbound>
+        <set-variable name="errorHandled" value="@(true)" />
+        <base />
+    </outbound>
+
+    <on-error>
+        <base />
+    </on-error>
+</policies>

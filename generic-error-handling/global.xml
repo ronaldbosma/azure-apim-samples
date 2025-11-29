@@ -1,0 +1,27 @@
+<policies>
+    <inbound />
+    <backend>
+        <forward-request />
+    </backend>
+    <outbound>
+        <choose>
+            <!-- If error and status code should be passed through, then return status code, else return 500 Internal Server Error -->
+            <when condition="@(context.Response.StatusCode >= 400)">
+                <set-variable name="passthroughErrorStatusCodes" value="404,409,413,429" />
+                <choose>
+                    <when condition="@{
+                        string[] passthroughErrorStatusCodes = ((string)context.Variables["passthroughErrorStatusCodes"]).Split(',');
+                        return passthroughErrorStatusCodes.Contains(context.Response.StatusCode.ToString());
+                    }">
+                        <set-body />
+                    </when>
+                    <otherwise>
+                        <set-status code="500" reason="Internal Server Error" />
+                        <set-body />
+                    </otherwise>
+                </choose>
+            </when>
+        </choose>
+    </outbound>
+    <on-error />
+</policies>

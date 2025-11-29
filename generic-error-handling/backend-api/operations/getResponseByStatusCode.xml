@@ -1,0 +1,22 @@
+<policies>
+    <inbound>
+        <base />
+
+        <return-response>
+            <set-status code="@(int.Parse(context.Request.MatchedParameters["statusCode"]))" />
+            <set-body></set-body>
+        </return-response>
+    </inbound>
+
+    <backend>
+        <base />
+    </backend>
+
+    <outbound>
+        <base />
+    </outbound>
+
+    <on-error>
+        <base />
+    </on-error>
+</policies>

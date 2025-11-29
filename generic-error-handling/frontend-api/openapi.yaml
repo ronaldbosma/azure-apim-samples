@@ -1,0 +1,80 @@
+openapi: 3.0.1
+info:
+  title: Frontend
+  description: Frontend API that forwards requests to the Backend API
+  version: '1.0'
+paths:
+  /defaultBehaviour/{statusCode}:
+    get:
+      summary: Default Behaviour
+      description: Returns a response based on the specified HTTP status code to demonstrate default error handling behaviour.
+      operationId: defaultBehaviour
+      parameters:
+        - name: statusCode
+          in: path
+          required: true
+          schema:
+            type: integer
+            minimum: 100
+            maximum: 599
+          description: The HTTP status code to return
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  statusCode:
+                    type: integer
+                  message:
+                    type: string
+        '400':
+          description: Bad request - invalid status code
+        '500':
+          description: Internal server error
+  /errorHandled/{statusCode}:
+    get:
+      summary: Error Handled
+      description: Returns a response based on the specified HTTP status code to demonstrate error handling behaviour where the operation specifies it handled the error.
+      operationId: errorHandled
+      parameters:
+        - name: statusCode
+          in: path
+          required: true
+          schema:
+            type: integer
+            minimum: 100
+            maximum: 599
+          description: The HTTP status code to return
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  statusCode:
+                    type: integer
+                  message:
+                    type: string
+        '400':
+          description: Bad request - invalid status code
+        '500':
+          description: Internal server error
+
+components:
+  securitySchemes:
+    apiKeyHeader:
+      type: apiKey
+      name: Ocp-Apim-Subscription-Key
+      in: header
+    apiKeyQuery:
+      type: apiKey
+      name: subscription-key
+      in: query
+security:
+  - apiKeyHeader: []
+  - apiKeyQuery: []
