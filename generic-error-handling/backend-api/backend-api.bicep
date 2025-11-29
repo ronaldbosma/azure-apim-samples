@@ -32,7 +32,8 @@ resource backendApi 'Microsoft.ApiManagement/service/apis@2024-10-01-preview' = 
     protocols: [
       'https'
     ]
-    subscriptionRequired: true
+    // Disable subscription requirement for demo purposes
+    subscriptionRequired: false
   }
 }
 
