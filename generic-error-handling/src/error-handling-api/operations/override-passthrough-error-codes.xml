@@ -8,7 +8,10 @@
     </backend>
 
     <outbound>
-        <!-- Override which error status codes are passed through as is, and which should be turned into a 500 Internal Server Error -->
+        <!-- 
+            Override which error status codes are passed through as is, 
+            and which should be turned into a 500 Internal Server Error 
+        -->
         <set-variable name="passthroughErrorStatusCodes" value="401,403,404,503" />
         <base />
     </outbound>

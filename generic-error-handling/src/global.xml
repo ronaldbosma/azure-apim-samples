@@ -10,7 +10,10 @@
                     - if status code should be passed through, then return status code as is
                     - else return 500 Internal Server Error
             -->
-            <when condition="@(context.Response.StatusCode >= 400 && context.Variables.GetValueOrDefault<bool>("errorHandled", false) == false)">
+        <when condition="@(
+                    context.Response.StatusCode >= 400 && 
+                    context.Variables.GetValueOrDefault<bool>("errorHandled", false) == false
+            )">
                 <choose>
                     <!-- Set the passthrough error status codes to a default set if not already set-->
                     <when condition="@(!context.Variables.ContainsKey("passthroughErrorStatusCodes"))">

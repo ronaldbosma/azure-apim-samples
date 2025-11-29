@@ -8,7 +8,10 @@
     </backend>
 
     <outbound>
-        <!-- All errors are marked as handled, which means the global error handling is skipped and they are returned as is -->
+        <!-- 
+            All errors are marked as handled, which means 
+            the global error handling is skipped and they are returned as is 
+        -->
         <set-variable name="errorHandled" value="@(true)" />
         <base />
     </outbound>
