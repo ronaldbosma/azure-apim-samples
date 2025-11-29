@@ -1,5 +1,5 @@
 //=============================================================================
-// Frontend API in API Management
+// Error Handling API in API Management
 //=============================================================================
 
 //=============================================================================
@@ -48,12 +48,12 @@ resource localhostBackend 'Microsoft.ApiManagement/service/backends@2024-10-01-p
   }
 }
 
-resource frontendApi 'Microsoft.ApiManagement/service/apis@2024-10-01-preview' = {
-  name: 'frontend-api'
+resource errorHandlingApi 'Microsoft.ApiManagement/service/apis@2024-10-01-preview' = {
+  name: 'error-handling-api'
   parent: apiManagementService
   dependsOn: [localhostBackend]
   properties: {
-    path: 'frontend'
+    path: 'error-handling'
     format: 'openapi'
     value: loadTextContent('openapi.yaml')
     type: 'http'
@@ -68,7 +68,7 @@ resource frontendApi 'Microsoft.ApiManagement/service/apis@2024-10-01-preview' =
     name: 'policy'
     properties: {
       format: 'rawxml'
-      value: loadTextContent('frontend-api.xml')
+      value: loadTextContent('error-handling-api.xml')
     }
     dependsOn: [localhostBackend]
   }
@@ -76,7 +76,7 @@ resource frontendApi 'Microsoft.ApiManagement/service/apis@2024-10-01-preview' =
 
 resource defaultBehaviourOperation 'Microsoft.ApiManagement/service/apis/operations@2024-10-01-preview' existing = {
   name: 'default-behaviour'
-  parent: frontendApi
+  parent: errorHandlingApi
 
   resource policies 'policies' = {
     name: 'policy'
@@ -89,7 +89,7 @@ resource defaultBehaviourOperation 'Microsoft.ApiManagement/service/apis/operati
 
 resource errorHandledOperation 'Microsoft.ApiManagement/service/apis/operations@2024-10-01-preview' existing = {
   name: 'error-handled'
-  parent: frontendApi
+  parent: errorHandlingApi
 
   resource policies 'policies' = {
     name: 'policy'
@@ -102,7 +102,7 @@ resource errorHandledOperation 'Microsoft.ApiManagement/service/apis/operations@
 
 resource customErrorHandlingOperation 'Microsoft.ApiManagement/service/apis/operations@2024-10-01-preview' existing = {
   name: 'custom-error-handling'
-  parent: frontendApi
+  parent: errorHandlingApi
 
   resource policies 'policies' = {
     name: 'policy'
@@ -115,7 +115,7 @@ resource customErrorHandlingOperation 'Microsoft.ApiManagement/service/apis/oper
 
 resource overridePassthroughErrorCodesOperation 'Microsoft.ApiManagement/service/apis/operations@2024-10-01-preview' existing = {
   name: 'override-passthrough-error-codes'
-  parent: frontendApi
+  parent: errorHandlingApi
 
   resource policies 'policies' = {
     name: 'policy'

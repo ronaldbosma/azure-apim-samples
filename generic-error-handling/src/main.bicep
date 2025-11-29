@@ -37,7 +37,7 @@ module backendApi 'backend-api/backend-api.bicep' = {
   }
 }
 
-module frontendApi 'frontend-api/frontend-api.bicep' = {
+module errorHandlingApi 'error-handling-api/error-handling-api.bicep' = {
   params: {
     apiManagementServiceName: apiManagementServiceName
   }

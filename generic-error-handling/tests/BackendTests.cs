@@ -1,6 +1,4 @@
-﻿using System.Net;
-
-namespace GenericErrorHandling.Tests
+﻿namespace GenericErrorHandling.Tests
 {
     [TestClass]
     public sealed class BackendTests

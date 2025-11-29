@@ -1,7 +1,7 @@
 openapi: 3.0.1
 info:
-  title: Frontend
-  description: Frontend API that forwards requests to the Backend API
+  title: Error Handling
+  description: Error Handling API that forwards requests to the Backend API and handlers errors
   version: '1.0'
 paths:
   /default-behaviour/{statusCode}:

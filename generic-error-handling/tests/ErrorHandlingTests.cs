@@ -1,10 +1,7 @@
-﻿using System.Net;
-using System.Net.Http;
-
-namespace GenericErrorHandling.Tests
+﻿namespace GenericErrorHandling.Tests
 {
     [TestClass]
-    public sealed class FrontEndTests
+    public sealed class ErrorHandlingTests
     {
         private static HttpClient? HttpClient;
 
@@ -22,7 +19,7 @@ namespace GenericErrorHandling.Tests
         }
 
         /// <summary>
-        /// Calls the 'default-behaviour' operation on the Frontend API.
+        /// Calls the 'default-behaviour' operation on the Error Handling API.
         /// Status codes 404,409,413,429 from the backend are returned as is,
         /// all other status codes are converted into a 500.
         /// </summary>
@@ -48,7 +45,7 @@ namespace GenericErrorHandling.Tests
         public async Task DefaultBehaviour(int backendStatusCode, int expectedStatusCode)
         {
             // Act
-            var response = await HttpClient!.GetAsync($"frontend/default-behaviour/{backendStatusCode}");
+            var response = await HttpClient!.GetAsync($"error-handling/default-behaviour/{backendStatusCode}");
 
             // Assert
             Assert.IsNotNull(response);
@@ -56,7 +53,7 @@ namespace GenericErrorHandling.Tests
         }
 
         /// <summary>
-        /// Calls the 'error-handled' operation on the Frontend API.
+        /// Calls the 'error-handled' operation on the Error Handling API.
         /// There is no custom error handling in the operation.
         /// All status codes are returned as is.
         /// </summary>
@@ -82,7 +79,7 @@ namespace GenericErrorHandling.Tests
         public async Task ErrorHandled(int backendStatusCode, int expectedStatusCode)
         {
             // Act
-            var response = await HttpClient!.GetAsync($"frontend/error-handled/{backendStatusCode}");
+            var response = await HttpClient!.GetAsync($"error-handling/error-handled/{backendStatusCode}");
 
             // Assert
             Assert.IsNotNull(response);
@@ -90,7 +87,7 @@ namespace GenericErrorHandling.Tests
         }
 
         /// <summary>
-        /// Calls the 'custom-error-handling' operation on the Frontend API.
+        /// Calls the 'custom-error-handling' operation on the Error Handling API.
         /// - A 201 is turned into a 418. Because we don't set error-handled to true, this should be turned into a 500 by the global error handling.
         /// - A 204 is turned into a 418. Because we set error-handled to true, the global error handling is skipped and it is returned as is.
         /// - For all other responses, the default is applied.
@@ -117,7 +114,7 @@ namespace GenericErrorHandling.Tests
         public async Task CustomErrorHandling(int backendStatusCode, int expectedStatusCode)
         {
             // Act
-            var response = await HttpClient!.GetAsync($"frontend/custom-error-handling/{backendStatusCode}");
+            var response = await HttpClient!.GetAsync($"error-handling/custom-error-handling/{backendStatusCode}");
 
             // Assert
             Assert.IsNotNull(response);
@@ -125,7 +122,7 @@ namespace GenericErrorHandling.Tests
         }
 
         /// <summary>
-        /// Calls the 'override-passthrough-error-codes' operation on the Frontend API.
+        /// Calls the 'override-passthrough-error-codes' operation on the Error Handling API.
         /// The operation overrides the error status codes to passthrough,
         /// which means status codes 401,403,404,503 from the backend are returned as is,
         /// all other status codes are converted into a 500.
@@ -152,7 +149,7 @@ namespace GenericErrorHandling.Tests
         public async Task OverridePassthroughErrorCodes(int backendStatusCode, int expectedStatusCode)
         {
             // Act
-            var response = await HttpClient!.GetAsync($"frontend/override-passthrough-error-codes/{backendStatusCode}");
+            var response = await HttpClient!.GetAsync($"error-handling/override-passthrough-error-codes/{backendStatusCode}");
 
             // Assert
             Assert.IsNotNull(response);
