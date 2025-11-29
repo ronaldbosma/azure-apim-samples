@@ -86,5 +86,39 @@ namespace GenericErrorHandling.Tests
             Assert.IsNotNull(response);
             Assert.AreEqual(expectedStatusCode, (int)response.StatusCode);
         }
+
+        /// <summary>
+        /// Calls the 'custom-error-handling' operation on the Frontend API.
+        /// - A 201 is turned into a 418. Because we don't set error-handled to true, this should be turned into a 500 by the global error handling.
+        /// - A 204 is turned into a 418. Because we set error-handled to true, the global error handling is skipped and it is returned as is.
+        /// - For all other responses, the default is applied.
+        /// </summary>
+        [TestMethod]
+        // Success codes codes
+        [DataRow(200, 200)]
+        [DataRow(201, 500)]
+        [DataRow(204, 418)]
+        // 4xx status codes
+        [DataRow(400, 500)]
+        [DataRow(401, 500)]
+        [DataRow(403, 500)]
+        [DataRow(404, 404)]
+        [DataRow(409, 409)]
+        [DataRow(413, 413)]
+        [DataRow(429, 429)]
+        // 5xx status codes
+        [DataRow(500, 500)]
+        [DataRow(501, 500)]
+        [DataRow(502, 500)]
+        [DataRow(503, 500)]
+        public async Task CustomErrorHandling(int backendStatusCode, int expectedStatusCode)
+        {
+            // Act
+            var response = await HttpClient!.GetAsync($"frontend/custom-error-handling/{backendStatusCode}");
+
+            // Assert
+            Assert.IsNotNull(response);
+            Assert.AreEqual(expectedStatusCode, (int)response.StatusCode);
+        }
     }
 }

@@ -99,3 +99,16 @@ resource errorHandledOperation 'Microsoft.ApiManagement/service/apis/operations@
     }
   }
 }
+
+resource customErrorHandlingOperation 'Microsoft.ApiManagement/service/apis/operations@2024-10-01-preview' existing = {
+  name: 'custom-error-handling'
+  parent: frontendApi
+
+  resource policies 'policies' = {
+    name: 'policy'
+    properties: {
+      format: 'rawxml'
+      value: loadTextContent('operations/custom-error-handling.xml')
+    }
+  }
+}
