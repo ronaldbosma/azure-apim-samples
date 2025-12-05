@@ -9,15 +9,15 @@
     -->
     <trace source='@(context.Operation.Id)' severity="information">
         <message>JWT token details</message>
-        <metadata name="AccessTokenIssuer" value='@{
+        <metadata name="Issuer" value='@{
             var token = context.Variables["jwt-token"] as Jwt;
             return !string.IsNullOrWhiteSpace(token?.Issuer) ? token.Issuer : "<empty>";
         }' />
-        <metadata name="AccessTokenSubject" value='@{
+        <metadata name="Subject" value='@{
             var token = context.Variables["jwt-token"] as Jwt;
             return !string.IsNullOrWhiteSpace(token?.Subject) ? token.Subject  : "<empty>";
         }' />
-        <metadata name="AccessTokenClientId" value='@{
+        <metadata name="ClientId" value='@{
             var token = context.Variables["jwt-token"] as Jwt;
             var clientId = token?.Claims.GetValueOrDefault("azp");
             return !string.IsNullOrWhiteSpace(clientId) ? clientId : "<empty>";
