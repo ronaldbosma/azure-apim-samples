@@ -1,0 +1,8 @@
+<validate-parameters specified-parameter-action="prevent" unspecified-parameter-action="ignore" errors-variable-name="requestValidationErrors" />
+<choose>
+    <when condition="@(context.Request.Method == "POST" || context.Request.Method == "PUT" || context.Request.Method == "PATCH")">
+        <validate-content unspecified-content-type-action="prevent" max-size="102400" size-exceeded-action="prevent" errors-variable-name="requestValidationErrors">
+            <content type="application/json" validate-as="json" action="prevent" />
+        </validate-content>
+    </when>
+</choose>
