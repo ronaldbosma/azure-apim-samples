@@ -8,3 +8,4 @@ This repository contains various samples for Azure API Management.
 - [Generic Error Handling](generic-error-handling): A sample that demonstrates how to implement generic error handling.
 - [Sanitize Response Headers](sanitize-response-headers): A sample that demonstrates how to sanitize response headers using allowlist and blocklist approaches.
 - [Snippets](snippets): A collection of reusable policy fragments and other snippets.
+- [Validate API Management Policies with PSRule](validate-apim-policies-with-psrule): A sample that demonstrates how to validate API Management policies using PSRule.
