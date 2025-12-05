@@ -1,6 +1,6 @@
 <fragment>
     <!-- Store the JWT token in a variable so we only need to parse it once. -->
-    <set-variable name="jwt-access-token" value='@(context.Request.Headers.GetValueOrDefault("Authorization")?.AsJwt())' />
+    <set-variable name="jwt-token" value='@(context.Request.Headers.GetValueOrDefault("Authorization")?.AsJwt())' />
 
     <!-- 
         Log the JWT token details.
@@ -10,15 +10,15 @@
     <trace source='@(context.Operation.Id)' severity="information">
         <message>JWT token details</message>
         <metadata name="AccessTokenIssuer" value='@{
-            var token = context.Variables["jwt-access-token"] as Jwt;
+            var token = context.Variables["jwt-token"] as Jwt;
             return !string.IsNullOrWhiteSpace(token?.Issuer) ? token.Issuer : "<empty>";
         }' />
         <metadata name="AccessTokenSubject" value='@{
-            var token = context.Variables["jwt-access-token"] as Jwt;
+            var token = context.Variables["jwt-token"] as Jwt;
             return !string.IsNullOrWhiteSpace(token?.Subject) ? token.Subject  : "<empty>";
         }' />
         <metadata name="AccessTokenClientId" value='@{
-            var token = context.Variables["jwt-access-token"] as Jwt;
+            var token = context.Variables["jwt-token"] as Jwt;
             var clientId = token?.Claims.GetValueOrDefault("azp");
             return !string.IsNullOrWhiteSpace(clientId) ? clientId : "<empty>";
         }' />
