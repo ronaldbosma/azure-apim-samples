@@ -6,6 +6,7 @@ It includes:
 - A Error Handling API that calls the Backend API and implements different error handling scenarios.
 - A Backend API that simulates a service returning various status codes.
 
+See the blog post [Generic Error Handling in API Management](https://ronaldbosma.github.io/blog/2025/12/01/generic-error-handling-in-api-management/) for a more detailed explanation.
 
 ## How it works
 
