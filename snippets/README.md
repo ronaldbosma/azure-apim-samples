@@ -1,3 +1,3 @@
 # Snippets
 
-- [logErrorResponse.fragment.xml](logErrorResponse.fragment.xml): A fragment that logs error responses
+- [logErrorResponse.xml](logErrorResponse.xml): A snippet that logs error responses
