@@ -1,6 +1,6 @@
 # Azure API Management Samples
 
-This repository contains various samples for Azure API Management.
+This repository contains various samples related to Azure API Management:
 
 - [API Management Client Certificate Series](apim-client-certificate-series): Samples that are part of my blog post series [Client Certificates and mTLS in API Management](https://ronaldbosma.github.io/series/client-certificates-and-mtls-in-api-management/).
 - [Catch-All API](catch-all-api): A sample API that catches all HTTP methods and forwards them to a backend service.
