@@ -6,3 +6,4 @@ This repository contains various samples for Azure API Management.
 - [Convert Base64 to multipart/form-data](convert-base64-to-multipart-formdata): A sample that converts a Base64 encoded file to a multipart/form-data request.
 - [Generic Error Handling](generic-error-handling): A sample that demonstrates how to implement generic error handling.
 - [Sanitize Response Headers](sanitize-response-headers): A sample that demonstrates how to sanitize response headers using allowlist and blocklist approaches.
+- [Snippets](snippets): A collection of reusable policy fragments and other snippets.
