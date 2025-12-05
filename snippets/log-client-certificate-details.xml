@@ -1,0 +1,21 @@
+<fragment>
+
+    <!-- 
+        Log the client certificate details.
+        NOTE: The value of a metadata element must always have a value. An empty string is not allowed.
+              To prevent the trace from failing and the request not being processed, "<empty>" is used for empty values.
+    -->
+    <trace source='@(context.Operation.Id)' severity="information">
+        <message>Client certificate details</message>
+        <!-- 
+            This will log a client certificate that is passed to API Management in the `X-ARR-ClientCert` header.
+            For example, when using mutual TLS with Azure Application Gateway in front of API Management.
+        -->
+        <metadata name="ClientCertificate1" value='@(!string.IsNullOrWhiteSpace(context.Request.Headers.GetValueOrDefault("X-ARR-ClientCert")) ? context.Request.Headers.GetValueOrDefault("X-ARR-ClientCert") : "<empty>")' />
+
+        <!--
+            This will log the subject of the client certificate that is directly presented to API Management.
+        -->
+        <metadata name="ClientCertificate2" value='@(!string.IsNullOrWhiteSpace(context.Request.Certificate?.Subject) ? context.Request.Certificate.Subject : "<empty>")' />
+    </trace>
+</fragment>
