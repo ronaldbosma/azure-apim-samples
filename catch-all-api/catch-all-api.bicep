@@ -13,11 +13,13 @@ param apiManagementServiceName string
 // Variables
 //=============================================================================
 
-var apiName = 'catch-all-api'
-var apiDisplayName = 'Catch-All API'
-var apiPath = 'catch-all'
-var httpMethodsToCatch = [ 'GET', 'POST', 'PUT', 'PATCH', 'DELETE' ]
-var backedServiceUrl = 'https://echo.playground.azure-api.net/api'
+var httpMethodsToCatch string[] = [ 
+  'GET'
+  'POST'
+  'PUT'
+  'PATCH'
+  'DELETE'
+]
 
 //=============================================================================
 // Existing resources
@@ -32,13 +34,13 @@ resource apiManagementService 'Microsoft.ApiManagement/service@2024-06-01-previe
 //=============================================================================
 
 resource catchAllApi 'Microsoft.ApiManagement/service/apis@2024-06-01-preview' = {
-  name: apiName
+  name: 'catch-all-api'
   parent: apiManagementService
   properties: {
-    displayName: apiDisplayName
-    path: apiPath
+    displayName: 'Catch-All API'
+    path: 'catch-all'
     type: 'http'
-    serviceUrl: backedServiceUrl
+    serviceUrl: 'https://echo.playground.azure-api.net/api'
     protocols: [
       'https'
     ]
