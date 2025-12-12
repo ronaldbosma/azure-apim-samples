@@ -25,7 +25,7 @@ var httpMethodsToCatch string[] = [
 // Existing resources
 //=============================================================================
 
-resource apiManagementService 'Microsoft.ApiManagement/service@2024-06-01-preview' existing = {
+resource apiManagementService 'Microsoft.ApiManagement/service@2024-10-01-preview' existing = {
   name: apiManagementServiceName
 }
 
@@ -33,7 +33,7 @@ resource apiManagementService 'Microsoft.ApiManagement/service@2024-06-01-previe
 // Resources
 //=============================================================================
 
-resource catchAllApi 'Microsoft.ApiManagement/service/apis@2024-06-01-preview' = {
+resource catchAllApi 'Microsoft.ApiManagement/service/apis@2024-10-01-preview' = {
   name: 'catch-all-api'
   parent: apiManagementService
   properties: {
