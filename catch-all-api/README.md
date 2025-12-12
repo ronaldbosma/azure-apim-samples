@@ -2,7 +2,7 @@
 
 This is a sample API Management API that catches all HTTP methods and forwards them to a backend service. It is designed to demonstrate how to create a catch-all API in Azure API Management. See the [catch-all-api.bicep](catch-all-api.bicep) for the implementation details.
 
-This example uses the `serviceUrl` property of the API resource to forward all requests to a backend service. You can use policies to support more advanced routing and transformations.
+This example uses the `serviceUrl` property of the API resource to forward all requests to https://echo.playground.azure-api.net/api, which will echo the requests it receives. You can use policies to support more advanced routing and transformations.
 
 ## Deploy
 
