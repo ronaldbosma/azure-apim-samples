@@ -1,5 +1,4 @@
-@baseUrl = https://echo.playground.azure-api.net/api
-# @baseUrl = https://<your-api-management-service-name>.azure-api.net/catch-all
+@baseUrl = https://<your-api-management-service-name>.azure-api.net/catch-all
 
 ###
 
