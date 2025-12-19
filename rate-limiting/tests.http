@@ -1,19 +1,23 @@
 @baseUrl = https://<your-api-management-service-name>.azure-api.net
 
+@apimSubscriptionKey = <your-subscription-key>  # Leave empty for no subscription key
 
 ##############################################
 # rate-limit API 1
 ##############################################
 
 GET {{baseUrl}}/rate-limit-1/operation-1
+Ocp-Apim-Subscription-Key: {{apimSubscriptionKey}}
 
 ###
 
 GET {{baseUrl}}/rate-limit-1/operation-2
+Ocp-Apim-Subscription-Key: {{apimSubscriptionKey}}
 
 ###
 
 GET {{baseUrl}}/rate-limit-1/operation-3
+Ocp-Apim-Subscription-Key: {{apimSubscriptionKey}}
 
 
 ##############################################
@@ -21,14 +25,17 @@ GET {{baseUrl}}/rate-limit-1/operation-3
 ##############################################
 
 GET {{baseUrl}}/rate-limit-2/operation-1
+Ocp-Apim-Subscription-Key: {{apimSubscriptionKey}}
 
 ###
 
 GET {{baseUrl}}/rate-limit-2/operation-2
+Ocp-Apim-Subscription-Key: {{apimSubscriptionKey}}
 
 ###
 
 GET {{baseUrl}}/rate-limit-2/operation-3
+Ocp-Apim-Subscription-Key: {{apimSubscriptionKey}}
 
 
 ##############################################
@@ -36,14 +43,17 @@ GET {{baseUrl}}/rate-limit-2/operation-3
 ##############################################
 
 GET {{baseUrl}}/rate-limit-by-key-1/operation-1
+Ocp-Apim-Subscription-Key: {{apimSubscriptionKey}}
 
 ###
 
 GET {{baseUrl}}/rate-limit-by-key-1/operation-2
+Ocp-Apim-Subscription-Key: {{apimSubscriptionKey}}
 
 ###
 
 GET {{baseUrl}}/rate-limit-by-key-1/operation-3
+Ocp-Apim-Subscription-Key: {{apimSubscriptionKey}}
 
 
 ##############################################
@@ -51,11 +61,14 @@ GET {{baseUrl}}/rate-limit-by-key-1/operation-3
 ##############################################
 
 GET {{baseUrl}}/rate-limit-by-key-2/operation-1
+Ocp-Apim-Subscription-Key: {{apimSubscriptionKey}}
 
 ###
 
 GET {{baseUrl}}/rate-limit-by-key-2/operation-2
+Ocp-Apim-Subscription-Key: {{apimSubscriptionKey}}
 
 ###
 
 GET {{baseUrl}}/rate-limit-by-key-2/operation-3
+Ocp-Apim-Subscription-Key: {{apimSubscriptionKey}}

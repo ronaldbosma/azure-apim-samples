@@ -53,3 +53,22 @@ module rateLimitByKeyApi2 'rate-limit-by-key-api/rate-limit-by-key-api.bicep' = 
     path: 'rate-limit-by-key-2'
   }
 }
+
+
+// Subscriptions for testing
+
+module subscription1 'subscription/subscription.bicep' = {
+  params: {
+    apiManagementServiceName: apiManagementServiceName
+    name: 'subscription-1'
+    displayName: 'Subscription 1'
+  }
+}
+
+module subscription2 'subscription/subscription.bicep' = {
+  params: {
+    apiManagementServiceName: apiManagementServiceName
+    name: 'subscription-2'
+    displayName: 'Subscription 2'
+  }
+}
