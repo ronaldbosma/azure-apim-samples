@@ -64,7 +64,7 @@ module rateLimitViaFragmentApi 'rate-limit-via-fragment-api/rate-limit-via-fragm
 }
 
 
-// Subscriptions for testing
+// Subscriptions for testing that can access all APIs
 
 module subscription1 'subscription/subscription.bicep' = {
   params: {
@@ -79,5 +79,18 @@ module subscription2 'subscription/subscription.bicep' = {
     apiManagementServiceName: apiManagementServiceName
     name: 'subscription-2'
     displayName: 'Subscription 2'
+  }
+}
+
+
+// Product with subscriptions that gives access to the rate-limit APIs
+
+module productWithSubscriptions 'product-with-subscriptions/product-with-subscriptions.bicep' = {
+  params: {
+    apiManagementServiceName: apiManagementServiceName
+    apiNames: [
+      rateLimitApi1.outputs.apiName
+      rateLimitApi2.outputs.apiName
+    ]
   }
 }
