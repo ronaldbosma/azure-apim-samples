@@ -4,6 +4,8 @@ This is a sample API Management API that catches all HTTP methods and forwards t
 
 This example uses the `serviceUrl` property of the API resource to forward all requests to https://echo.playground.azure-api.net/api, which will echo the requests it receives. You can use policies to support more advanced routing and transformations.
 
+See the blog post [Catch-All API in Azure API Management: Forward Any Request](https://ronaldbosma.github.io/blog/2025/12/15/catch-all-api-in-azure-api-management-forward-any-request/) for more details.
+
 ## Deploy
 
 You need to have an API Management service already created in Azure. See [Azure Integration Services Quickstart](https://github.com/ronaldbosma/azure-integration-services-quickstart) for an easy way to create one.
