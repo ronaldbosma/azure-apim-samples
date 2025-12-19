@@ -72,3 +72,21 @@ Ocp-Apim-Subscription-Key: {{apimSubscriptionKey}}
 
 GET {{baseUrl}}/rate-limit-by-key-2/operation-3
 Ocp-Apim-Subscription-Key: {{apimSubscriptionKey}}
+
+
+##############################################
+# rate-limit via fragment API
+##############################################
+
+GET {{baseUrl}}/rate-limit-via-fragment/operation-1
+Ocp-Apim-Subscription-Key: {{apimSubscriptionKey}}
+
+###
+
+GET {{baseUrl}}/rate-limit-via-fragment/operation-2
+Ocp-Apim-Subscription-Key: {{apimSubscriptionKey}}
+
+###
+
+GET {{baseUrl}}/rate-limit-via-fragment/operation-3
+Ocp-Apim-Subscription-Key: {{apimSubscriptionKey}}

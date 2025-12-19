@@ -55,6 +55,15 @@ module rateLimitByKeyApi2 'rate-limit-by-key-api/rate-limit-by-key-api.bicep' = 
 }
 
 
+// API using the rate-limit policy via fragment
+
+module rateLimitViaFragmentApi 'rate-limit-via-fragment-api/rate-limit-via-fragment-api.bicep' = {
+  params: {
+    apiManagementServiceName: apiManagementServiceName
+  }
+}
+
+
 // Subscriptions for testing
 
 module subscription1 'subscription/subscription.bicep' = {
