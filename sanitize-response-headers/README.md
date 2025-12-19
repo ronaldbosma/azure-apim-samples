@@ -29,6 +29,6 @@ Follow these steps to deploy the APIs to an existing API Management service:
 
 Follow these steps to test the API:
 1. Open the [tests.http](tests.http) file in an IDE that supports HTTP requests, such as Visual Studio Code.
-1. Change the base URL to your API Management service URL, e.g. `https://<your-api-management-service-name>.azure-api.net`. 
+1. Change the base URL to your API Management service URL, e.g. `https://apim-aisquick-sdc-5spzh.azure-api.net`. 
 1. Execute the requests on the Backend and Sanitizing APIs to see how the response headers are sanitized.
 1. Use the parameters `numberOfSafeHeadersToReturnFromBackend` and `numberOfUnsafeHeadersToReturnFromBackend` to control how many safe and unsafe headers the Backend API returns.
