@@ -2,7 +2,8 @@
     <inbound>
         <base />
         
-        <rate-limit-by-key calls="10" renewal-period="30" counter-key="@(context.Api.Id)" 
+        <rate-limit-by-key calls="10" renewal-period="30" 
+                           counter-key="@(context.Api.Id)" 
                            retry-after-header-name="Retry-After-On-API" 
                            remaining-calls-header-name="Remaining-Calls-On-API" 
                            total-calls-header-name="Total-Calls-On-API"/>
