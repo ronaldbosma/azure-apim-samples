@@ -1,0 +1,22 @@
+<policies>
+    <inbound>
+        <base />
+        
+        <rate-limit calls="10" renewal-period="30" 
+                    retry-after-header-name="Retry-After-On-API" 
+                    remaining-calls-header-name="Remaining-Calls-On-API" 
+                    total-calls-header-name="Total-Calls-On-API" />
+    </inbound>
+    
+    <backend>
+        <base />
+    </backend>
+
+    <outbound>
+        <base />
+    </outbound>
+
+    <on-error>
+        <base />
+    </on-error>
+</policies>
