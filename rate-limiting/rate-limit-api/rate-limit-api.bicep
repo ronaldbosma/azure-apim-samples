@@ -37,7 +37,6 @@ resource api 'Microsoft.ApiManagement/service/apis@2024-10-01-preview' = {
     displayName: displayName
     path: path
     type: 'http'
-    serviceUrl: 'https://echo.playground.azure-api.net/api'
     protocols: [
       'https'
     ]
