@@ -29,3 +29,33 @@ GET {{baseUrl}}/rate-limit-2/operation-2
 ###
 
 GET {{baseUrl}}/rate-limit-2/operation-3
+
+
+##############################################
+# rate-limit-by-key API 1
+##############################################
+
+GET {{baseUrl}}/rate-limit-by-key-1/operation-1
+
+###
+
+GET {{baseUrl}}/rate-limit-by-key-1/operation-2
+
+###
+
+GET {{baseUrl}}/rate-limit-by-key-1/operation-3
+
+
+##############################################
+# rate-limit-by-key API 2
+##############################################
+
+GET {{baseUrl}}/rate-limit-by-key-2/operation-1
+
+###
+
+GET {{baseUrl}}/rate-limit-by-key-2/operation-2
+
+###
+
+GET {{baseUrl}}/rate-limit-by-key-2/operation-3
