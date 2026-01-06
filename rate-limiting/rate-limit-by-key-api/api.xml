@@ -2,11 +2,29 @@
     <inbound>
         <base />
         
+        <!-- Use the API ID as the counter key to set a rate limit on the entire API. -->
         <rate-limit-by-key calls="10" renewal-period="30" 
                            counter-key="@(context.Api.Id)" 
                            retry-after-header-name="Retry-After-On-API" 
                            remaining-calls-header-name="Remaining-Calls-On-API" 
                            total-calls-header-name="Total-Calls-On-API"/>
+
+        <!-- 
+            Use combination of API ID and Operation ID as the counter key to set a rate limit per operation.
+            If we only use the Operation ID, the rate limit would be shared across all APIs that use rate-limit-by-key and have an operation with the same ID.
+        -->
+        <rate-limit-by-key calls="5" renewal-period="30" 
+                           counter-key="@($"{context.Api.Id};{context.Operation.Id}")" 
+                           retry-after-header-name="Retry-After-On-Operation" 
+                           remaining-calls-header-name="Remaining-Calls-On-Operation" 
+                           total-calls-header-name="Total-Calls-On-Operation"/>
+
+        <return-response>
+            <set-status code="200" />
+            <set-header name="Subscription-Id" exists-action="override">
+                <value>@(context.Subscription?.Id ?? "<no-subscription>")</value>
+            </set-header>
+        </return-response>
     </inbound>
     
     <backend>

@@ -58,14 +58,6 @@ resource api 'Microsoft.ApiManagement/service/apis@2024-10-01-preview' = {
       method: 'GET'
       urlTemplate: '/operation-1'
     }
-
-    resource policies 'policies' = {
-      name: 'policy'
-      properties: {
-        format: 'rawxml'
-        value: loadTextContent('operation.xml')
-      }
-    }
   }
   
   resource operation2 'operations' = {
@@ -75,14 +67,6 @@ resource api 'Microsoft.ApiManagement/service/apis@2024-10-01-preview' = {
       method: 'GET'
       urlTemplate: '/operation-2'
     }
-
-    resource policies 'policies' = {
-      name: 'policy'
-      properties: {
-        format: 'rawxml'
-        value: loadTextContent('operation.xml')
-      }
-    }
   }
   
   resource operation3 'operations' = {
@@ -91,14 +75,6 @@ resource api 'Microsoft.ApiManagement/service/apis@2024-10-01-preview' = {
       displayName: 'operation-3'
       method: 'GET'
       urlTemplate: '/operation-3'
-    }
-
-    resource policies 'policies' = {
-      name: 'policy'
-      properties: {
-        format: 'rawxml'
-        value: loadTextContent('operation.xml')
-      }
     }
   }
 }
