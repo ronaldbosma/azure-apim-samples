@@ -46,20 +46,20 @@ resource product 'Microsoft.ApiManagement/service/products@2024-10-01-preview' =
 }
 
 resource subscription1 'Microsoft.ApiManagement/service/subscriptions@2024-10-01-preview' = {
-  name: 'subscription-on-rate-limit-product-1'
+  name: 'subscription-1-on-rate-limit-product'
   parent: apiManagementService
   properties: {
-    displayName: 'Subscription on rate-limit product 1'
+    displayName: 'Subscription 1 on rate-limit product'
     state: 'active'
     scope: '/product/${product.id}'
   }
 }
 
 resource subscription2 'Microsoft.ApiManagement/service/subscriptions@2024-10-01-preview' = {
-  name: 'subscription-on-rate-limit-product-2'
+  name: 'subscription-2-on-rate-limit-product'
   parent: apiManagementService
   properties: {
-    displayName: 'Subscription on rate-limit product 2'
+    displayName: 'Subscription 2 on rate-limit product'
     state: 'active'
     scope: '/product/${product.id}'
   }
