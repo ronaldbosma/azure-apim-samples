@@ -27,5 +27,5 @@ Follow these steps to deploy the API to an existing API Management service:
 
 Follow these steps to test the API:
 1. Open the [tests.http](tests.http) file in an IDE that supports HTTP requests, such as Visual Studio Code.
-1. Change the base URL to your API Management service URL, e.g. `https://<your-api-management-service-name>.azure-api.net/catch-all`. 
+1. Change the base URL to your API Management service URL, e.g. `https://apim-aisquick-sdc-5spzh.azure-api.net/catch-all`. 
 1. Execute the requests to call the Echo API via the Catch-All API.

@@ -1,0 +1,26 @@
+<policies>
+    <inbound>
+        <base />
+        
+        <include-fragment fragment-id="rate-limit-fragment" />
+
+        <return-response>
+            <set-status code="200" />
+            <set-header name="Subscription-Id" exists-action="override">
+                <value>@(context.Subscription?.Id ?? "<no-subscription>")</value>
+            </set-header>
+        </return-response>
+    </inbound>
+    
+    <backend>
+        <base />
+    </backend>
+
+    <outbound>
+        <base />
+    </outbound>
+
+    <on-error>
+        <base />
+    </on-error>
+</policies>
