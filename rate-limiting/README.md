@@ -2,6 +2,13 @@
 
 Example that contains several secenarios to show the workings of the `rate-limit` and `rate-limit-by-key` policies in Azure API Management.
 
+This sample includes:
+- Two 'rate-limit' APIs that use the `rate-limit` policy to limit calls on the API and operation scope.
+- Two 'rate-limit-by-key' APIs that use the `rate-limit-by-key` policy to limit calls on the API and operation scope.
+- A 'rate-limit via fragment' API that uses a policy fragment containing the `rate-limit` policy to limit calls.
+- Two subscriptions with access to all APIs.
+- A product with access to the 'rate-limit' APIs and that uses the `rate-limit` policy to limit calls on the product scope. Two subscriptions are subscribed to this product.
+
 ## Deploy
 
 You need to have an API Management service already created in Azure. See [Azure Integration Services Quickstart](https://github.com/ronaldbosma/azure-integration-services-quickstart) for an easy way to create one.  
