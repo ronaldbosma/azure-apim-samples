@@ -9,6 +9,8 @@ This sample includes:
 - Two subscriptions with access to all APIs.
 - A product that provides access to the 'rate-limit' APIs and uses the `rate-limit` policy to limit calls on the product scope. Two subscriptions are subscribed to this product.
 
+See the blog post [Rate Limiting in Azure API Management](https://ronaldbosma.github.io/blog/2026/01/06/rate-limiting-in-azure-api-management/) for a more detailed explanation.
+
 ## Deploy
 
 You need to have an API Management service already created in Azure. See [Azure Integration Services Quickstart](https://github.com/ronaldbosma/azure-integration-services-quickstart) for an easy way to create one.  
