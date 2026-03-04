@@ -121,7 +121,7 @@ resource sampleApi 'Microsoft.ApiManagement/service/apis@2024-10-01-preview' = {
     protocols: [
       'https'
     ]
-    subscriptionRequired: true
+    subscriptionRequired: false
   }
 }
 
