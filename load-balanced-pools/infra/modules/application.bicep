@@ -96,12 +96,10 @@ resource loadBalancedPool 'Microsoft.ApiManagement/service/backends@2023-09-01-p
         {
           id: currentRegionBackend.id
           priority: 1
-          weight: 100
         }
         {
           id: otherRegionBackend.id
           priority: 2
-          weight: 0
         }
       ]
     }
