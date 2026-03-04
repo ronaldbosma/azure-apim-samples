@@ -1,0 +1,17 @@
+POST https://apim-primary-sdc-orfff.azure-api.net/sample-api/
+Content-Type: application/json
+
+{
+    "primaryResultCode": 200,
+    "secondaryResultCode": 200
+}
+
+###
+
+POST https://apim-secondary-nwe-g5bv4.azure-api.net/sample-api/
+Content-Type: application/json
+
+{
+    "primaryResultCode": 200,
+    "secondaryResultCode": 200
+}
