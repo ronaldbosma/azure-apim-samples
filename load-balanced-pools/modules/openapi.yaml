@@ -1,0 +1,59 @@
+openapi: 3.0.1
+info:
+  title: Sample
+  description: Sample API
+  version: "1.0"
+paths:
+  /:
+    post:
+      summary: Process Request
+      description: Process request and return responding region
+      operationId: process-request
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/processRequest"
+            example:
+              primaryResultCode: 503
+              secondaryResultCode: 200
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/processResponse"
+              example:
+                respondingRegion: primary
+components:
+  schemas:
+    processRequest:
+      required:
+        - primaryResultCode
+        - secondaryResultCode
+      type: object
+      properties:
+        primaryResultCode:
+          type: integer
+        secondaryResultCode:
+          type: integer
+    processResponse:
+      required:
+        - respondingRegion
+      type: object
+      properties:
+        respondingRegion:
+          type: string
+  securitySchemes:
+    apiKeyHeader:
+      type: apiKey
+      name: Ocp-Apim-Subscription-Key
+      in: header
+    apiKeyQuery:
+      type: apiKey
+      name: subscription-key
+      in: query
+security:
+  - apiKeyHeader: []
+  - apiKeyQuery: []
