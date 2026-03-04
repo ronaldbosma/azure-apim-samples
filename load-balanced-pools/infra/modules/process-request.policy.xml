@@ -3,6 +3,7 @@
         <base />
 
         <set-backend-service backend-id="load-balanced-pool" />
+        <rewrite-uri template="api/ProcessRequestFunction" />
     </inbound>
 
     <backend>
