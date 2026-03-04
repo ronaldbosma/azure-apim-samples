@@ -55,9 +55,27 @@ resource currentRegionBackend 'Microsoft.ApiManagement/service/backends@2024-10-
         ]
       }
     }
-    tls: {
-      validateCertificateChain: true
-      validateCertificateName: true
+    circuitBreaker: {
+      rules: [
+        {
+          name: 'rule'
+          tripDuration: 'PT30S'
+          acceptRetryAfter: true
+          failureCondition: {
+            count: 3
+            errorReasons: [
+              'Server errors'
+            ]
+            interval: 'PT15S'
+            statusCodeRanges: [
+              {
+                min: 502 // Bad Gateway
+                max: 504 // Gateway Timeout
+              }
+            ]
+          }
+        }
+      ]
     }
   }
 }
@@ -76,9 +94,27 @@ resource otherRegionBackend 'Microsoft.ApiManagement/service/backends@2024-10-01
         ]
       }
     }
-    tls: {
-      validateCertificateChain: true
-      validateCertificateName: true
+    circuitBreaker: {
+      rules: [
+        {
+          name: 'rule'
+          tripDuration: 'PT30S'
+          acceptRetryAfter: true
+          failureCondition: {
+            count: 3
+            errorReasons: [
+              'Server errors'
+            ]
+            interval: 'PT15S'
+            statusCodeRanges: [
+              {
+                min: 502 // Bad Gateway
+                max: 504 // Gateway Timeout
+              }
+            ]
+          }
+        }
+      ]
     }
   }
 }
