@@ -12,7 +12,7 @@ Write-Host "Start deployment at: $(Get-Date -Format "dd-MM-yyyy HH:mm:ss")"
 az deployment sub create `
     --name "deploy-load-balanced-pools-$(Get-Date -Format "yyyyMMdd-HHmmss")" `
     --location $Location `
-    --parameters main.bicepparam `
+    --parameters ./infra/main.bicepparam `
     --verbose
 
 Write-Host "Deployment completed at: $(Get-Date -Format "dd-MM-yyyy HH:mm:ss")"
