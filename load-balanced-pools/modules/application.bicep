@@ -12,33 +12,27 @@ import { regionalSettingsType } from './types.bicep'
 // Parameters
 //=============================================================================
 
-@description('The settings for the region')
-param settings regionalSettingsType
+@description('The settings for the current region')
+param currentRegionSettings regionalSettingsType
 
-@description('The name of the Function App in the primary region')
-param primaryFunctionAppName string
-
-@description('The name of the Function App in the secondary region')
-param secondaryFunctionAppName string
+@description('The settings for the other region')
+param otherRegionSettings regionalSettingsType
 
 //=============================================================================
 // Existing resources
 //=============================================================================
 
 resource apiManagementService 'Microsoft.ApiManagement/service@2024-10-01-preview' existing = {
-  name: settings.apiManagementServiceName
+  name: currentRegionSettings.apiManagementServiceName
 }
 
-resource functionApp 'Microsoft.Web/sites@2025-03-01' existing = {
-  name: settings.functionAppName
+resource currentRegionFunctionApp 'Microsoft.Web/sites@2025-03-01' existing = {
+  name: currentRegionSettings.functionAppName
 }
 
-resource primaryFunctionApp 'Microsoft.Web/sites@2025-03-01' existing = {
-  name: primaryFunctionAppName
-}
-
-resource secondaryFunctionApp 'Microsoft.Web/sites@2025-03-01' existing = {
-  name: secondaryFunctionAppName
+resource otherRegionFunctionApp 'Microsoft.Web/sites@2025-03-01' existing = {
+  name: otherRegionSettings.functionAppName
+  scope: resourceGroup(otherRegionSettings.resourceGroupName)
 }
 
 //=============================================================================
@@ -47,17 +41,17 @@ resource secondaryFunctionApp 'Microsoft.Web/sites@2025-03-01' existing = {
 
 // Backends
 
-resource primaryBackend 'Microsoft.ApiManagement/service/backends@2024-10-01-preview' = {
+resource currentRegionBackend 'Microsoft.ApiManagement/service/backends@2024-10-01-preview' = {
   parent: apiManagementService
-  name: 'primary-backend'
+  name: currentRegionSettings.functionAppName
   properties: {
     description: 'The backend for the primary region'
-    url: 'https://${primaryFunctionApp.properties.defaultHostName}'
+    url: 'https://${currentRegionFunctionApp.properties.defaultHostName}'
     protocol: 'http'
     credentials: {
       header: {
         'x-functions-key': [
-          listKeys('${primaryFunctionApp.id}/host/default', primaryFunctionApp.apiVersion).functionKeys.default
+          listKeys('${currentRegionFunctionApp.id}/host/default', currentRegionFunctionApp.apiVersion).functionKeys.default
         ]
       }
     }
@@ -68,17 +62,17 @@ resource primaryBackend 'Microsoft.ApiManagement/service/backends@2024-10-01-pre
   }
 }
 
-resource secondaryBackend 'Microsoft.ApiManagement/service/backends@2024-10-01-preview' = {
+resource otherRegionBackend 'Microsoft.ApiManagement/service/backends@2024-10-01-preview' = {
   parent: apiManagementService
-  name: 'secondary-backend'
+  name: otherRegionSettings.functionAppName
   properties: {
     description: 'The backend for the secondary region'
-    url: 'https://${secondaryFunctionApp.properties.defaultHostName}'
+    url: 'https://${otherRegionFunctionApp.properties.defaultHostName}'
     protocol: 'http'
     credentials: {
       header: {
         'x-functions-key': [
-          listKeys('${secondaryFunctionApp.id}/host/default', secondaryFunctionApp.apiVersion).functionKeys.default
+          listKeys('${otherRegionFunctionApp.id}/host/default', otherRegionFunctionApp.apiVersion).functionKeys.default
         ]
       }
     }
@@ -100,14 +94,14 @@ resource loadBalancedPool 'Microsoft.ApiManagement/service/backends@2023-09-01-p
     pool: {
       services: [
         {
-          id: primaryBackend.id
-          priority: settings.isPrimaryRegion ? 1 : 2
-          weight: settings.isPrimaryRegion ? 100 : 0
+          id: currentRegionBackend.id
+          priority: 1
+          weight: 100
         }
         {
-          id: secondaryBackend.id
-          priority: settings.isPrimaryRegion ? 2 : 1
-          weight: settings.isPrimaryRegion ? 0 : 100
+          id: otherRegionBackend.id
+          priority: 2
+          weight: 0
         }
       ]
     }
@@ -154,10 +148,10 @@ resource processRequestOperation 'Microsoft.ApiManagement/service/apis/operation
 
 module setFunctionAppSettings './merge-app-settings.bicep' = {
   params: {
-    siteName: settings.functionAppName
-    currentAppSettings: list('${functionApp.id}/config/appsettings', functionApp.apiVersion).properties
+    siteName: currentRegionSettings.functionAppName
+    currentAppSettings: list('${currentRegionFunctionApp.id}/config/appsettings', currentRegionFunctionApp.apiVersion).properties
     newAppSettings: {
-      IS_PRIMARY_REGION: toLower(string(settings.isPrimaryRegion))
+      IS_PRIMARY_REGION: toLower(string(currentRegionSettings.isPrimaryRegion))
     }
   }
 }

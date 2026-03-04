@@ -27,17 +27,15 @@ param secondaryRegionSettings regionalSettingsType
 module applicationInPrimaryRegion 'modules/application.bicep' = {
   scope: resourceGroup(primaryRegionSettings.resourceGroupName)
   params: {
-    settings: primaryRegionSettings
-    primaryFunctionAppName: primaryRegionSettings.functionAppName
-    secondaryFunctionAppName: secondaryRegionSettings.functionAppName
+    currentRegionSettings: primaryRegionSettings
+    otherRegionSettings: secondaryRegionSettings
   }
 }
 
 module applicationInSecondaryRegion 'modules/application.bicep' = {
   scope: resourceGroup(secondaryRegionSettings.resourceGroupName)
   params: {
-    settings: secondaryRegionSettings
-    primaryFunctionAppName: primaryRegionSettings.functionAppName
-    secondaryFunctionAppName: secondaryRegionSettings.functionAppName
+    currentRegionSettings: secondaryRegionSettings
+    otherRegionSettings: primaryRegionSettings
   }
 }
