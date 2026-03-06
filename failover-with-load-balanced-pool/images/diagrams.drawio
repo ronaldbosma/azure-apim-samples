@@ -66,7 +66,7 @@
     </mxGraphModel>
   </diagram>
   <diagram id="BuTN-4bH9dysUlw812yE" name="failover-sequence-diagram">
-    <mxGraphModel dx="1425" dy="828" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+    <mxGraphModel dx="1181" dy="686" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -170,7 +170,7 @@
             <mxPoint x="316" y="405" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="lxNHNes754BBGiOaJ704-3" edge="1" parent="1" source="lxNHNes754BBGiOaJ704-1" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;curved=0;rounded=0;exitX=0;exitY=1;exitDx=0;exitDy=-5;" target="ruLKgz-XgQHtLocHXp9Q-1" value="return">
+        <mxCell id="lxNHNes754BBGiOaJ704-3" edge="1" parent="1" source="lxNHNes754BBGiOaJ704-1" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;curved=0;rounded=0;exitX=0;exitY=1;exitDx=0;exitDy=-5;" target="ruLKgz-XgQHtLocHXp9Q-1" value="200">
           <mxGeometry relative="1" as="geometry">
             <mxPoint x="115" y="535" as="targetPoint" />
           </mxGeometry>
