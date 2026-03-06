@@ -34,8 +34,8 @@ Use `deploy.ps1` to deploy infrastructure and publish the Function App code.
 ```
 
 Optional flags:
-- `-DeployInfra`: deploy only infrastructure from `infra/main.bicep`.
-- `-DeployFunction`: build/publish Function code and zip-deploy it to both Function Apps.
+- `-DeployInfra`: deploy the API, backends and load-balanced pool from `./infra/main.bicep` to both API Management instances.
+- `-DeployFunction`: build/publish Function code from `./src` and zip-deploy it to both Function Apps.
 
 ## Test
 
