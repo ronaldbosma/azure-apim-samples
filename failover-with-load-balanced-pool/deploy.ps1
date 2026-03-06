@@ -30,7 +30,7 @@ if ($DeployInfra) {
     az deployment sub create `
         --name "deploy-load-balanced-pools-$(Get-Date -Format "yyyyMMdd-HHmmss")" `
         --location $Location `
-        --parameters ./infra/main.bicepparam `
+        --template-file ./infra/main.bicep `
         --parameters firstResourceGroupName=$FirstResourceGroupName `
         --parameters firstApiManagementServiceName=$FirstApiManagementServiceName `
         --parameters firstFunctionAppName=$FirstFunctionAppName `
