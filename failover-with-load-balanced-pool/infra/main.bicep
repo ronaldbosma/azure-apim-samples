@@ -1,5 +1,5 @@
 //=============================================================================
-// Merge App Settings in the Site Config
+// Failover with Load-Balanced Pool sample
 //=============================================================================
 
 targetScope = 'subscription'
