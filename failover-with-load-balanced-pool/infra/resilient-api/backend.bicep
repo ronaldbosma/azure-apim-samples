@@ -32,7 +32,7 @@ resource functionApp 'Microsoft.Web/sites@2025-03-01' existing = {
 // Resources
 //=============================================================================
 
-resource functionAppBackend 'Microsoft.ApiManagement/service/backends@2024-10-01-preview' = {
+resource functionAppBackend 'Microsoft.ApiManagement/service/backends@2025-03-01-preview' = {
   parent: apiManagementService
   name: functionAppName
   properties: {
@@ -55,7 +55,7 @@ resource functionAppBackend 'Microsoft.ApiManagement/service/backends@2024-10-01
           failureCondition: {
             count: 3
             errorReasons: [
-              'Server errors'
+              'BackendConnectionFailure'
             ]
             interval: 'PT15S'
             statusCodeRanges: [
