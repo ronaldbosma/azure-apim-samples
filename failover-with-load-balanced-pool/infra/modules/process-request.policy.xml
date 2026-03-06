@@ -2,6 +2,11 @@
     <inbound>
         <base />
 
+        <validate-content unspecified-content-type-action="prevent" max-size="102400"
+            size-exceeded-action="prevent">
+            <content type="application/json" validate-as="json" action="prevent" />
+        </validate-content>
+
         <set-backend-service backend-id="load-balanced-pool" />
         <rewrite-uri template="api/ProcessRequestFunction" />
     </inbound>

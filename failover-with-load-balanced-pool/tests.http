@@ -1,17 +1,29 @@
 POST https://apim-primary-sdc-orfff.azure-api.net/resilient-api/
 Content-Type: application/json
 
-{
-    "primaryResultCode": 200,
-    "secondaryResultCode": 200
-}
+[
+    {
+        "functionApp": "func-primary-sdc-orfff",
+        "respondsWithResultCode": 200
+    },
+    {
+        "functionApp": "func-secondary-nwe-g5bv4",
+        "respondsWithResultCode": 200
+    }
+]
 
 ###
 
 POST https://apim-secondary-nwe-g5bv4.azure-api.net/resilient-api/
 Content-Type: application/json
 
-{
-    "primaryResultCode": 200,
-    "secondaryResultCode": 200
-}
+[
+    {
+        "functionApp": "func-primary-sdc-orfff",
+        "respondsWithResultCode": 200
+    },
+    {
+        "functionApp": "func-secondary-nwe-g5bv4",
+        "respondsWithResultCode": 200
+    }
+]
