@@ -2,6 +2,11 @@
 
 Sample that shows how to configure a resilient API in Azure API Management (APIM) by using a load-balanced backend pool with two Azure Function Apps in different regions. Each APIM instance is configured to prefer its local Function App and fail over to the other region when needed.
 
+See the following image for a high-level overview:
+
+![API Management Failover Overview](./images/apim-failover-overview.png)
+
+
 ## Prerequisites
 
 Before deploying, make sure you have the following:
