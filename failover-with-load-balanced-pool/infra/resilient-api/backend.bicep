@@ -36,7 +36,7 @@ resource functionAppBackend 'Microsoft.ApiManagement/service/backends@2025-03-01
   parent: apiManagementService
   name: functionAppName
   properties: {
-    description: 'The backend for the primary region'
+    description: 'The backend for Function App ${functionAppName}'
     url: 'https://${functionApp.properties.defaultHostName}'
     protocol: 'http'
     credentials: {
