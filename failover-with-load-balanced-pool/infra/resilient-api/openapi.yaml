@@ -1,0 +1,56 @@
+openapi: 3.0.1
+info:
+  title: Resilient API
+  description: Resilient API for demonstrating failover with load balanced pool
+  version: "1.0"
+paths:
+  /:
+    post:
+      summary: Process Request
+      description: Process request and return the function app name and region
+      operationId: process-request
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/processRequest"
+            example:
+              - functionApp: func-primary-sdc-orfff
+                respondsWithResultCode: 503
+              - functionApp: func-secondary-nwe-g5bv4
+                respondsWithResultCode: 200
+      responses:
+        default:
+          description: Response for any returned status code
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/processResponse"
+              example:
+                functionAppName: func-secondary-nwe-g5bv4
+                region: norwayeast
+components:
+  schemas:
+    processRequest:
+      type: array
+      minItems: 1
+      items:
+        type: object
+        required:
+          - functionApp
+          - respondsWithResultCode
+        properties:
+          functionApp:
+            type: string
+          respondsWithResultCode:
+            type: integer
+    processResponse:
+      required:
+        - functionAppName
+        - region
+      type: object
+      properties:
+        functionAppName:
+          type: string
+        region:
+          type: string
