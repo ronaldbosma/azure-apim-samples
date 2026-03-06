@@ -460,3 +460,9 @@ $RECYCLE.BIN/
 __blobstorage__/
 __queuestorage__/
 __azurite_db*.json
+
+# Ignore Draw.io backup files
+*.drawio.bkp
+
+# Ignore local Publish Output
+publish.zip
