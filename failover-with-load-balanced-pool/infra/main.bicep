@@ -30,7 +30,7 @@ param secondFunctionAppName string
 // Resources
 //=============================================================================
 
-module applicationInPrimaryRegion 'modules/application.bicep' = {
+module apiInPrimaryRegion 'modules/api.bicep' = {
   scope: resourceGroup(firstResourceGroupName)
   params: {
     apiManagementServiceName: firstApiManagementServiceName
@@ -40,7 +40,7 @@ module applicationInPrimaryRegion 'modules/application.bicep' = {
   }
 }
 
-module applicationInSecondaryRegion 'modules/application.bicep' = {
+module apiInSecondaryRegion 'modules/api.bicep' = {
   scope: resourceGroup(secondResourceGroupName)
   params: {
     apiManagementServiceName: secondApiManagementServiceName
