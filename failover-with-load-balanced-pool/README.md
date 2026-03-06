@@ -49,7 +49,7 @@ Use `tests.http` to validate that both APIM instances can reach both Function Ap
 1. Open [tests.http](tests.http) in Visual Studio Code (REST Client extension or another HTTP client).
 1. Update request URLs and Function App names.
 1. Execute both `POST /resilient-api/` requests.
-1. Confirm the response shows both backends with `respondsWithResultCode` set to `200`.
-1. Change the `respondsWithResultCode` of the function app that is deployed in the same region as APIm to `503` and execute the requests again. The response should come from the other function app, showing that failover is working as expected.
+1. Confirm the response shows that the function app in the same region as the APIM instance is responding, as expected.
+1. Change the `respondsWithResultCode` of the function app that is deployed in the same region as APIM to `503` and execute the requests again. The response should come from the other function app, showing that failover is working as expected.
 
 The file includes one request against the primary APIM endpoint and one against the secondary APIM endpoint, so you can verify behavior from both regions.
