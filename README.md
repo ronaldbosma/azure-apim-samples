@@ -8,6 +8,8 @@ Samples that are part of my blog post series [Client Certificates and mTLS in AP
   A sample API that catches all HTTP methods and forwards them to a backend service.
 - [Convert Base64 to multipart/form-data](convert-base64-to-multipart-formdata)  
   Demonstrates how to convert a Base64 encoded file to a multipart/form-data request.
+- [Failover with Load-Balanced Pool](failover-with-load-balanced-pool)  
+  Demonstrates how to configure a resilient API in APIM using a load-balanced backend pool with failover.
 - [Generic Error Handling](generic-error-handling)  
   Demonstrates how to implement generic error handling in API Management.
 - [Rate Limiting](rate-limiting)  
