@@ -1,24 +1,29 @@
 param (
-    [switch]$Infra,
-    [switch]$Function,
-    [string]$Location = 'swedencentral',
-    [string]$PrimaryFunctionAppName = 'func-primary-sdc-orfff',
-    [string]$PrimaryResourceGroupName = 'rg-primary-sdc-orfff',
-    [string]$SecondaryFunctionAppName = 'func-secondary-nwe-g5bv4',
-    [string]$SecondaryResourceGroupName = 'rg-secondary-nwe-g5bv4'
+    # Flags to control what to deploy. If neither is specified, both infra and function will be deployed
+    [switch]$DeployInfra,
+    [switch]$DeployFunction,
+
+    # Parameters for deployment
+    [Parameter(Mandatory = $true)][string]$Location,
+    [Parameter(Mandatory = $true)][string]$FirstResourceGroupName,
+    [Parameter(Mandatory = $true)][string]$FirstApiManagementServiceName,
+    [Parameter(Mandatory = $true)][string]$FirstFunctionAppName,
+    [Parameter(Mandatory = $true)][string]$SecondResourceGroupName,
+    [Parameter(Mandatory = $true)][string]$SecondApiManagementServiceName,
+    [Parameter(Mandatory = $true)][string]$SecondFunctionAppName
 )
 
 $ErrorActionPreference = 'Stop'
 Set-StrictMode -Version Latest
 
 # If neither flag is specified, deploy both
-if (-not $Infra -and -not $Function) {
-    $Infra = $true
-    $Function = $true
+if (-not $DeployInfra -and -not $DeployFunction) {
+    $DeployInfra = $true
+    $DeployFunction = $true
 }
 
 # Deploy infrastructure
-if ($Infra) {
+if ($DeployInfra) {
     Write-Host "Start infra deployment at: $(Get-Date -Format "dd-MM-yyyy HH:mm:ss")"
 
     # Deploy at subscription level using the bicepparam file
@@ -26,13 +31,19 @@ if ($Infra) {
         --name "deploy-load-balanced-pools-$(Get-Date -Format "yyyyMMdd-HHmmss")" `
         --location $Location `
         --parameters ./infra/main.bicepparam `
+        --parameters firstResourceGroupName=$FirstResourceGroupName `
+        --parameters firstApiManagementServiceName=$FirstApiManagementServiceName `
+        --parameters firstFunctionAppName=$FirstFunctionAppName `
+        --parameters secondResourceGroupName=$SecondResourceGroupName `
+        --parameters secondApiManagementServiceName=$SecondApiManagementServiceName `
+        --parameters secondFunctionAppName=$SecondFunctionAppName `
         --verbose
 
     Write-Host "Infra deployment completed at: $(Get-Date -Format "dd-MM-yyyy HH:mm:ss")"
 }
 
 # Build and publish the function app
-if ($Function) {
+if ($DeployFunction) {
     Write-Host ""
     Write-Host "Building dotnet project at: $(Get-Date -Format "dd-MM-yyyy HH:mm:ss")"
 
@@ -52,21 +63,21 @@ if ($Function) {
         }
         Compress-Archive -Path ./publish/* -DestinationPath ./publish.zip
 
-        # Deploy to primary region function app
+        # Deploy to first region function app
         Write-Host ""
-        Write-Host "Publishing to primary region function app '$PrimaryFunctionAppName' at: $(Get-Date -Format "dd-MM-yyyy HH:mm:ss")"
+        Write-Host "Publishing to first region function app '$FirstFunctionAppName' at: $(Get-Date -Format "dd-MM-yyyy HH:mm:ss")"
         az functionapp deployment source config-zip `
-            --resource-group $PrimaryResourceGroupName `
-            --name $PrimaryFunctionAppName `
+            --resource-group $FirstResourceGroupName `
+            --name $FirstFunctionAppName `
             --src ./publish.zip `
             --build-remote false
 
-        # Deploy to secondary region function app
+        # Deploy to second region function app
         Write-Host ""
-        Write-Host "Publishing to secondary region function app '$SecondaryFunctionAppName' at: $(Get-Date -Format "dd-MM-yyyy HH:mm:ss")"
+        Write-Host "Publishing to second region function app '$SecondFunctionAppName' at: $(Get-Date -Format "dd-MM-yyyy HH:mm:ss")"
         az functionapp deployment source config-zip `
-            --resource-group $SecondaryResourceGroupName `
-            --name $SecondaryFunctionAppName `
+            --resource-group $SecondResourceGroupName `
+            --name $SecondFunctionAppName `
             --src ./publish.zip `
             --build-remote false
 
@@ -77,5 +88,3 @@ if ($Function) {
         Pop-Location
     }
 }
-
-

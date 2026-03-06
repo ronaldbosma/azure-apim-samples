@@ -1,4 +1,4 @@
-POST https://apim-primary-sdc-orfff.azure-api.net/sample-api/
+POST https://apim-primary-sdc-orfff.azure-api.net/resilient-api/
 Content-Type: application/json
 
 {
@@ -8,7 +8,7 @@ Content-Type: application/json
 
 ###
 
-POST https://apim-secondary-nwe-g5bv4.azure-api.net/sample-api/
+POST https://apim-secondary-nwe-g5bv4.azure-api.net/resilient-api/
 Content-Type: application/json
 
 {

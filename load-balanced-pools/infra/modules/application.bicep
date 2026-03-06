@@ -3,36 +3,27 @@
 //=============================================================================
 
 //=============================================================================
-// Imports
-//=============================================================================
-
-import { regionalSettingsType } from './types.bicep'
-
-//=============================================================================
 // Parameters
 //=============================================================================
 
-@description('The settings for the current region')
-param currentRegionSettings regionalSettingsType
+@description('The name of the API Management service instance in the current region')
+param apiManagementServiceName string
 
-@description('The settings for the other region')
-param otherRegionSettings regionalSettingsType
+@description('The name of the Function App backend in the current region')
+param functionAppName string
+
+@description('The name of the Function App backend in the other region')
+param otherFunctionAppName string
+
+@description('The name of the resource group where the Function App backend in the other region is located')
+param otherFunctionAppResourceGroupName string
 
 //=============================================================================
 // Existing resources
 //=============================================================================
 
-resource apiManagementService 'Microsoft.ApiManagement/service@2024-10-01-preview' existing = {
-  name: currentRegionSettings.apiManagementServiceName
-}
-
-resource currentRegionFunctionApp 'Microsoft.Web/sites@2025-03-01' existing = {
-  name: currentRegionSettings.functionAppName
-}
-
-resource otherRegionFunctionApp 'Microsoft.Web/sites@2025-03-01' existing = {
-  name: otherRegionSettings.functionAppName
-  scope: resourceGroup(otherRegionSettings.resourceGroupName)
+resource apiManagementService 'Microsoft.ApiManagement/service@2025-03-01-preview' existing = {
+  name: apiManagementServiceName
 }
 
 //=============================================================================
@@ -41,87 +32,25 @@ resource otherRegionFunctionApp 'Microsoft.Web/sites@2025-03-01' existing = {
 
 // Backends
 
-resource currentRegionBackend 'Microsoft.ApiManagement/service/backends@2024-10-01-preview' = {
-  parent: apiManagementService
-  name: currentRegionSettings.functionAppName
-  properties: {
-    description: 'The backend for the primary region'
-    url: 'https://${currentRegionFunctionApp.properties.defaultHostName}'
-    protocol: 'http'
-    credentials: {
-      header: {
-        'x-functions-key': [
-          listKeys('${currentRegionFunctionApp.id}/host/default', currentRegionFunctionApp.apiVersion).functionKeys.default
-        ]
-      }
-    }
-    circuitBreaker: {
-      rules: [
-        {
-          name: 'rule'
-          tripDuration: 'PT30S'
-          acceptRetryAfter: true
-          failureCondition: {
-            count: 3
-            errorReasons: [
-              'Server errors'
-            ]
-            interval: 'PT15S'
-            statusCodeRanges: [
-              {
-                min: 502 // Bad Gateway
-                max: 504 // Gateway Timeout
-              }
-            ]
-          }
-        }
-      ]
-    }
+module currentRegionBackend './backend.bicep' = {
+  params: {
+    apiManagementServiceName: apiManagementServiceName
+    functionAppResourceGroupName: resourceGroup().name
+    functionAppName: functionAppName
   }
 }
 
-resource otherRegionBackend 'Microsoft.ApiManagement/service/backends@2024-10-01-preview' = {
-  parent: apiManagementService
-  name: otherRegionSettings.functionAppName
-  properties: {
-    description: 'The backend for the secondary region'
-    url: 'https://${otherRegionFunctionApp.properties.defaultHostName}'
-    protocol: 'http'
-    credentials: {
-      header: {
-        'x-functions-key': [
-          listKeys('${otherRegionFunctionApp.id}/host/default', otherRegionFunctionApp.apiVersion).functionKeys.default
-        ]
-      }
-    }
-    circuitBreaker: {
-      rules: [
-        {
-          name: 'rule'
-          tripDuration: 'PT30S'
-          acceptRetryAfter: true
-          failureCondition: {
-            count: 3
-            errorReasons: [
-              'Server errors'
-            ]
-            interval: 'PT15S'
-            statusCodeRanges: [
-              {
-                min: 502 // Bad Gateway
-                max: 504 // Gateway Timeout
-              }
-            ]
-          }
-        }
-      ]
-    }
+module otherRegionBackend './backend.bicep' = {
+  params: {
+    apiManagementServiceName: apiManagementServiceName
+    functionAppResourceGroupName: otherFunctionAppResourceGroupName
+    functionAppName: otherFunctionAppName
   }
 }
 
 // Load balanced backend pool
 
-resource loadBalancedPool 'Microsoft.ApiManagement/service/backends@2023-09-01-preview' = {
+resource loadBalancedPool 'Microsoft.ApiManagement/service/backends@2025-03-01-preview' = {
   name: 'load-balanced-pool'
   parent: apiManagementService
   properties: {
@@ -130,11 +59,11 @@ resource loadBalancedPool 'Microsoft.ApiManagement/service/backends@2023-09-01-p
     pool: {
       services: [
         {
-          id: currentRegionBackend.id
+          id: currentRegionBackend.outputs.functionAppBackendId
           priority: 1
         }
         {
-          id: otherRegionBackend.id
+          id: otherRegionBackend.outputs.functionAppBackendId
           priority: 2
         }
       ]
@@ -144,11 +73,11 @@ resource loadBalancedPool 'Microsoft.ApiManagement/service/backends@2023-09-01-p
 
 // API
 
-resource sampleApi 'Microsoft.ApiManagement/service/apis@2024-10-01-preview' = {
-  name: 'sample-api'
+resource resilientApi 'Microsoft.ApiManagement/service/apis@2025-03-01-preview' = {
+  name: 'resilient-api'
   parent: apiManagementService
   properties: {
-    path: 'sample-api'
+    path: 'resilient-api'
     format: 'openapi'
     value: loadTextContent('openapi.yaml')
     type: 'http'
@@ -159,9 +88,9 @@ resource sampleApi 'Microsoft.ApiManagement/service/apis@2024-10-01-preview' = {
   }
 }
 
-resource processRequestOperation 'Microsoft.ApiManagement/service/apis/operations@2024-10-01-preview' existing = {
+resource processRequestOperation 'Microsoft.ApiManagement/service/apis/operations@2025-03-01-preview' existing = {
   name: 'process-request'
-  parent: sampleApi
+  parent: resilientApi
 
   resource policies 'policies' = {
     name: 'policy'
@@ -169,23 +98,9 @@ resource processRequestOperation 'Microsoft.ApiManagement/service/apis/operation
       format: 'rawxml'
       value: loadTextContent('process-request.policy.xml')
     }
-  }
 
-  dependsOn: [
-    loadBalancedPool
-  ]
-}
-
-// Function App - Set standard App Settings
-//  NOTE: this is done in a separate module that merges the application specific app settings with the existing ones 
-//        to prevent existing app settings from being removed.
-
-module setFunctionAppSettings './merge-app-settings.bicep' = {
-  params: {
-    siteName: currentRegionSettings.functionAppName
-    currentAppSettings: list('${currentRegionFunctionApp.id}/config/appsettings', currentRegionFunctionApp.apiVersion).properties
-    newAppSettings: {
-      IS_PRIMARY_REGION: toLower(string(currentRegionSettings.isPrimaryRegion))
-    }
+    dependsOn: [
+      loadBalancedPool
+    ]
   }
 }
