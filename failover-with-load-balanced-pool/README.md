@@ -6,6 +6,7 @@ See the following image for a high-level overview:
 
 ![API Management Failover Overview](./images/apim-failover-overview.png)
 
+See the blog post [Implement Failover in API Management with a Load-balanced Pool](https://ronaldbosma.github.io/blog/2026/03/09/implement-failover-in-api-management-with-a-load-balanced-pool/) for a more detailed explanation.
 
 ## Prerequisites
 
