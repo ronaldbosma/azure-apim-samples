@@ -9,6 +9,9 @@
 @description('The name of the API Management service')
 param apiManagementServiceName string
 
+@description('Indicates whether to add operation-level tags from the OpenAPI definition to the API in API Management')
+param addOperationLevelTagsToApi bool = true
+
 //=============================================================================
 // Existing resources
 //=============================================================================
@@ -91,13 +94,18 @@ resource bikeRentalApi 'Microsoft.ApiManagement/service/apis@2025-03-01-preview'
   }
 }
 
-resource bikeRentalApiMobilityTag 'Microsoft.ApiManagement/service/apis/tags@2025-03-01-preview' = {
-  parent: bikeRentalApi
-  name: 'mobility'
-  dependsOn: [
-    mobilityTag
-  ]
-}
+var bikeRentalApiOperationTags = union(
+  addOperationLevelTagsToApi
+    ? flatten(loadYamlContent('apis/bike-rental-api.openapi.yaml', '$.paths.*.*.tags') ?? [])
+    : [],
+  ['mobility']
+)
+resource bikeRentalApiTags 'Microsoft.ApiManagement/service/apis/tags@2025-03-01-preview' = [
+  for tagName in bikeRentalApiOperationTags: {
+    parent: bikeRentalApi
+    name: tagName
+  }
+]
 
 // Trip Planning API tagged with 'Mobility' and 'Planning'
 
@@ -117,18 +125,15 @@ resource tripPlanningApi 'Microsoft.ApiManagement/service/apis@2025-03-01-previe
   }
 }
 
-resource tripPlanningApiMobilityTag 'Microsoft.ApiManagement/service/apis/tags@2025-03-01-preview' = {
-  parent: tripPlanningApi
-  name: 'mobility'
-  dependsOn: [
-    mobilityTag
-  ]
-}
-
-resource tripPlanningApiPlanningTag 'Microsoft.ApiManagement/service/apis/tags@2025-03-01-preview' = {
-  parent: tripPlanningApi
-  name: 'planning'
-  dependsOn: [
-    planningTag
-  ]
-}
+var tripPlanningApiOperationTags = union(
+  addOperationLevelTagsToApi
+    ? flatten(loadYamlContent('apis/trip-planning-api.openapi.yaml', '$.paths.*.*.tags') ?? [])
+    : [],
+  ['mobility', 'planning']
+)
+resource tripPlanningApiTags 'Microsoft.ApiManagement/service/apis/tags@2025-03-01-preview' = [
+  for tagName in tripPlanningApiOperationTags: {
+    parent: tripPlanningApi
+    name: tagName
+  }
+]
