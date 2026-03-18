@@ -21,6 +21,34 @@ resource apiManagementService 'Microsoft.ApiManagement/service@2025-03-01-previe
 // Resources
 //=============================================================================
 
+// Tags
+
+resource mobilityTag 'Microsoft.ApiManagement/service/tags@2025-03-01-preview' = {
+  parent: apiManagementService
+  name: 'mobility'
+  properties: {
+    displayName: 'mobility'
+  }
+}
+
+resource publicTag 'Microsoft.ApiManagement/service/tags@2025-03-01-preview' = {
+  parent: apiManagementService
+  name: 'public'
+  properties: {
+    displayName: 'public'
+  }
+}
+
+resource planningTag 'Microsoft.ApiManagement/service/tags@2025-03-01-preview' = {
+  parent: apiManagementService
+  name: 'planning'
+  properties: {
+    displayName: 'planning'
+  }
+}
+
+// Transit Status API tagged with 'Mobility'
+
 resource transitStatusApi 'Microsoft.ApiManagement/service/apis@2025-03-01-preview' = {
   name: 'transit-status'
   parent: apiManagementService
@@ -36,6 +64,16 @@ resource transitStatusApi 'Microsoft.ApiManagement/service/apis@2025-03-01-previ
     subscriptionRequired: false
   }
 }
+
+resource transitStatusApiMobilityTag 'Microsoft.ApiManagement/service/apis/tags@2025-03-01-preview' = {
+  parent: transitStatusApi
+  name: 'mobility'
+  dependsOn: [
+    mobilityTag
+  ]
+}
+
+// Bike Rental API tagged with 'Mobility'
 
 resource bikeRentalApi 'Microsoft.ApiManagement/service/apis@2025-03-01-preview' = {
   name: 'bike-rental'
@@ -53,6 +91,16 @@ resource bikeRentalApi 'Microsoft.ApiManagement/service/apis@2025-03-01-preview'
   }
 }
 
+resource bikeRentalApiMobilityTag 'Microsoft.ApiManagement/service/apis/tags@2025-03-01-preview' = {
+  parent: bikeRentalApi
+  name: 'mobility'
+  dependsOn: [
+    mobilityTag
+  ]
+}
+
+// Trip Planning API tagged with 'Mobility' and 'Planning'
+
 resource tripPlanningApi 'Microsoft.ApiManagement/service/apis@2025-03-01-preview' = {
   name: 'trip-planning'
   parent: apiManagementService
@@ -67,4 +115,20 @@ resource tripPlanningApi 'Microsoft.ApiManagement/service/apis@2025-03-01-previe
     ]
     subscriptionRequired: false
   }
+}
+
+resource tripPlanningApiMobilityTag 'Microsoft.ApiManagement/service/apis/tags@2025-03-01-preview' = {
+  parent: tripPlanningApi
+  name: 'mobility'
+  dependsOn: [
+    mobilityTag
+  ]
+}
+
+resource tripPlanningApiPlanningTag 'Microsoft.ApiManagement/service/apis/tags@2025-03-01-preview' = {
+  parent: tripPlanningApi
+  name: 'planning'
+  dependsOn: [
+    planningTag
+  ]
 }
