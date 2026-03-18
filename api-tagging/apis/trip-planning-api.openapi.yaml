@@ -23,12 +23,29 @@ paths:
       responses:
         "200":
           description: OK
-  /routes/alerts:
-    get:
-      operationId: getRouteAlerts
-      summary: List route alerts
+    post:
+      operationId: createRouteFare
+      summary: Create route fare
       tags:
-        - planning
+        - pricing
+        - public
+      responses:
+        "200":
+          description: OK
+    patch:
+      operationId: updateRouteFarePartially
+      summary: Partially update route fare
+      tags:
+        - pricing
+        - public
+      responses:
+        "200":
+          description: OK
+    put:
+      operationId: updateRouteFare
+      summary: Update route fare
+      tags:
+        - pricing
         - public
       responses:
         "200":
