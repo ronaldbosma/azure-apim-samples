@@ -10,7 +10,7 @@
 param apiManagementServiceName string
 
 @description('Indicates whether to add operation-level tags from the OpenAPI definition to the API in API Management')
-param addOperationLevelTagsToApi bool = true
+param addOperationLevelTagsToApi bool = false
 
 //=============================================================================
 // Existing resources
