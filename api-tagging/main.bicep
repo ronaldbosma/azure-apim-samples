@@ -13,7 +13,7 @@ param apiManagementServiceName string
 // Existing resources
 //=============================================================================
 
-resource apiManagementService 'Microsoft.ApiManagement/service@2024-10-01-preview' existing = {
+resource apiManagementService 'Microsoft.ApiManagement/service@2025-03-01-preview' existing = {
   name: apiManagementServiceName
 }
 
@@ -21,7 +21,7 @@ resource apiManagementService 'Microsoft.ApiManagement/service@2024-10-01-previe
 // Resources
 //=============================================================================
 
-resource transitStatusApi 'Microsoft.ApiManagement/service/apis@2024-10-01-preview' = {
+resource transitStatusApi 'Microsoft.ApiManagement/service/apis@2025-03-01-preview' = {
   name: 'transit-status'
   parent: apiManagementService
   properties: {
@@ -37,7 +37,7 @@ resource transitStatusApi 'Microsoft.ApiManagement/service/apis@2024-10-01-previ
   }
 }
 
-resource bikeRentalApi 'Microsoft.ApiManagement/service/apis@2024-10-01-preview' = {
+resource bikeRentalApi 'Microsoft.ApiManagement/service/apis@2025-03-01-preview' = {
   name: 'bike-rental'
   parent: apiManagementService
   properties: {
@@ -53,7 +53,7 @@ resource bikeRentalApi 'Microsoft.ApiManagement/service/apis@2024-10-01-preview'
   }
 }
 
-resource tripPlanningApi 'Microsoft.ApiManagement/service/apis@2024-10-01-preview' = {
+resource tripPlanningApi 'Microsoft.ApiManagement/service/apis@2025-03-01-preview' = {
   name: 'trip-planning'
   parent: apiManagementService
   properties: {
