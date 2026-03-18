@@ -1,0 +1,26 @@
+openapi: 3.0.3
+info:
+  title: Transit Status API
+  version: 1.0.0
+paths:
+  /lines:
+    get:
+      operationId: getLines
+      summary: List transit lines
+      responses:
+        "200":
+          description: OK
+  /lines/status:
+    get:
+      operationId: getLineStatuses
+      summary: List current line statuses
+      responses:
+        "200":
+          description: OK
+  /stations/departures:
+    get:
+      operationId: getStationDepartures
+      summary: List upcoming station departures
+      responses:
+        "200":
+          description: OK
