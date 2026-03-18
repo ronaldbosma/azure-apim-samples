@@ -86,10 +86,10 @@ resource bikeRentalApi 'Microsoft.ApiManagement/service/apis@2025-03-01-preview'
   }
 }
 
+// If operation-level tags should be added, extract them from the OpenAPI definition and combine with the 'mobility' tag. 
+// Otherwise, just use the 'mobility' tag.
 var bikeRentalApiOperationTags = union(
-  addOperationLevelTagsToApi
-    ? flatten(loadYamlContent('apis/bike-rental-api.openapi.yaml', '$.paths.*.*.tags') ?? [])
-    : [],
+  addOperationLevelTagsToApi ? flatten(loadYamlContent('apis/bike-rental-api.openapi.yaml', '$.paths.*.*.tags')) : [],
   ['mobility']
 )
 resource bikeRentalApiTags 'Microsoft.ApiManagement/service/apis/tags@2025-03-01-preview' = [
@@ -120,10 +120,10 @@ resource tripPlanningApi 'Microsoft.ApiManagement/service/apis@2025-03-01-previe
   }
 }
 
+// If operation-level tags should be added, extract them from the OpenAPI definition and combine with the 'mobility' and 'planning' tags.
+// Otherwise, just use the 'mobility' and 'planning' tags.
 var tripPlanningApiOperationTags = union(
-  addOperationLevelTagsToApi
-    ? flatten(loadYamlContent('apis/trip-planning-api.openapi.yaml', '$.paths.*.*.tags') ?? [])
-    : [],
+  addOperationLevelTagsToApi ? flatten(loadYamlContent('apis/trip-planning-api.openapi.yaml', '$.paths.*.*.tags')) : [],
   ['mobility', 'planning']
 )
 resource tripPlanningApiTags 'Microsoft.ApiManagement/service/apis/tags@2025-03-01-preview' = [
