@@ -26,29 +26,21 @@ resource apiManagementService 'Microsoft.ApiManagement/service@2025-03-01-previe
 
 // Tags
 
-resource mobilityTag 'Microsoft.ApiManagement/service/tags@2025-03-01-preview' = {
-  parent: apiManagementService
-  name: 'mobility'
-  properties: {
-    displayName: 'mobility'
-  }
-}
+var apiTags = [
+  'mobility'
+  'public'
+  'planning'
+]
 
-resource publicTag 'Microsoft.ApiManagement/service/tags@2025-03-01-preview' = {
-  parent: apiManagementService
-  name: 'public'
-  properties: {
-    displayName: 'public'
+resource apimTags 'Microsoft.ApiManagement/service/tags@2025-03-01-preview' = [
+  for tagName in apiTags: {
+    parent: apiManagementService
+    name: tagName
+    properties: {
+      displayName: tagName
+    }
   }
-}
-
-resource planningTag 'Microsoft.ApiManagement/service/tags@2025-03-01-preview' = {
-  parent: apiManagementService
-  name: 'planning'
-  properties: {
-    displayName: 'planning'
-  }
-}
+]
 
 // Transit Status API tagged with 'Mobility'
 
@@ -72,7 +64,7 @@ resource transitStatusApiMobilityTag 'Microsoft.ApiManagement/service/apis/tags@
   parent: transitStatusApi
   name: 'mobility'
   dependsOn: [
-    mobilityTag
+    apimTags
   ]
 }
 
@@ -104,6 +96,9 @@ resource bikeRentalApiTags 'Microsoft.ApiManagement/service/apis/tags@2025-03-01
   for tagName in bikeRentalApiOperationTags: {
     parent: bikeRentalApi
     name: tagName
+    dependsOn: [
+      apimTags
+    ]
   }
 ]
 
@@ -135,5 +130,8 @@ resource tripPlanningApiTags 'Microsoft.ApiManagement/service/apis/tags@2025-03-
   for tagName in tripPlanningApiOperationTags: {
     parent: tripPlanningApi
     name: tagName
+    dependsOn: [
+      apimTags
+    ]
   }
 ]
