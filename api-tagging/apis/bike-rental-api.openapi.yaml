@@ -1,0 +1,32 @@
+openapi: 3.0.3
+info:
+  title: Bike Rental API
+  version: 1.0.0
+paths:
+  /stations:
+    get:
+      operationId: getBikeStations
+      summary: List bike rental stations
+      tags:
+        - public
+      responses:
+        "200":
+          description: OK
+  /stations/bikes:
+    get:
+      operationId: getStationBikes
+      summary: List available bikes per station
+      tags:
+        - public
+      responses:
+        "200":
+          description: OK
+  /rentals:
+    get:
+      operationId: getRentals
+      summary: List current bike rentals
+      tags:
+        - public
+      responses:
+        "200":
+          description: OK

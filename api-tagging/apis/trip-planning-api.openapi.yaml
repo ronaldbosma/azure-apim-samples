@@ -1,0 +1,52 @@
+openapi: 3.0.3
+info:
+  title: Trip Planning API
+  version: 1.0.0
+paths:
+  /routes/search:
+    get:
+      operationId: searchRoutes
+      summary: Search candidate routes
+      tags:
+        - planning
+        - public
+      responses:
+        "200":
+          description: OK
+  /routes/fare:
+    get:
+      operationId: getRouteFare
+      summary: Get route fare estimate
+      tags:
+        - pricing
+        - public
+      responses:
+        "200":
+          description: OK
+    post:
+      operationId: createRouteFare
+      summary: Create route fare
+      tags:
+        - pricing
+        - public
+      responses:
+        "200":
+          description: OK
+    patch:
+      operationId: updateRouteFarePartially
+      summary: Partially update route fare
+      tags:
+        - pricing
+        - public
+      responses:
+        "200":
+          description: OK
+    put:
+      operationId: updateRouteFare
+      summary: Update route fare
+      tags:
+        - pricing
+        - public
+      responses:
+        "200":
+          description: OK
