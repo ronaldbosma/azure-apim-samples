@@ -27,11 +27,11 @@ var transitStatusApiTags = ['mobility']
 var bikeRentalApiOperationTags = addOperationLevelTagsToApi
   ? flatten(loadYamlContent('apis/bike-rental-api.openapi.yaml', '$.paths.*.*.tags'))
   : []
-var bikeRentalApiTags = ['mobility', ...bikeRentalApiOperationTags]
+var bikeRentalApiTags = union(['mobility'], bikeRentalApiOperationTags)
 
 var tripPlanningApiOpenApiContent = loadYamlContent('apis/trip-planning-api.openapi.yaml')
 var tripPlanningApiOperationTags = addOperationLevelTagsToApi ? extractOperationTags(tripPlanningApiOpenApiContent) : []
-var tripPlanningApiTags = ['mobility', 'planning', ...tripPlanningApiOperationTags]
+var tripPlanningApiTags = union(['mobility', 'planning'], tripPlanningApiOperationTags)
 
 //=============================================================================
 // Existing resources
