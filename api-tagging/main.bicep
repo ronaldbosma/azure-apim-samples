@@ -10,7 +10,7 @@
 param apiManagementServiceName string
 
 @description('Indicates whether to add operation-level tags from the OpenAPI definition to the API in API Management')
-param addOperationLevelTagsToApi bool = false
+param addOperationTagsToApi bool = false
 
 //=============================================================================
 // Variables
@@ -18,19 +18,17 @@ param addOperationLevelTagsToApi bool = false
 
 var apiTags = ['mobility', 'planning']
 
-var bikeRentalApiOperationTags = addOperationLevelTagsToApi
+var bikeRentalApiOperationTags = addOperationTagsToApi
   ? flatten(loadYamlContent('apis/bike-rental-api.openapi.yaml', '$.paths.*.*.tags'))
   : []
 var bikeRentalApiTags = union(['mobility'], bikeRentalApiOperationTags)
 
 var transitStatusApiOpenApiContent = loadYamlContent('apis/transit-status-api.openapi.yaml')
-var transitStatusApiOperationTags = addOperationLevelTagsToApi
-  ? extractOperationTags(transitStatusApiOpenApiContent)
-  : []
+var transitStatusApiOperationTags = addOperationTagsToApi ? extractOperationTags(transitStatusApiOpenApiContent) : []
 var transitStatusApiTags = union(['mobility'], transitStatusApiOperationTags)
 
 var tripPlanningApiOpenApiContent = loadYamlContent('apis/trip-planning-api.openapi.yaml')
-var tripPlanningApiOperationTags = addOperationLevelTagsToApi ? extractOperationTags(tripPlanningApiOpenApiContent) : []
+var tripPlanningApiOperationTags = addOperationTagsToApi ? extractOperationTags(tripPlanningApiOpenApiContent) : []
 var tripPlanningApiTags = union(['mobility', 'planning'], tripPlanningApiOperationTags)
 
 //=============================================================================
