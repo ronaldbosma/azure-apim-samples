@@ -13,6 +13,27 @@ param apiManagementServiceName string
 param addOperationLevelTagsToApi bool = false
 
 //=============================================================================
+// Variables
+//=============================================================================
+
+var apiTags = [
+  'mobility'
+  'public'
+  'planning'
+]
+
+var transitStatusApiTags = ['mobility']
+
+var bikeRentalApiOperationTags = addOperationLevelTagsToApi
+  ? flatten(loadYamlContent('apis/bike-rental-api.openapi.yaml', '$.paths.*.*.tags'))
+  : []
+var bikeRentalApiTags = ['mobility', ...bikeRentalApiOperationTags]
+
+var tripPlanningApiOpenApiContent = loadYamlContent('apis/trip-planning-api.openapi.yaml')
+var tripPlanningApiOperationTags = addOperationLevelTagsToApi ? extractOperationTags(tripPlanningApiOpenApiContent) : []
+var tripPlanningApiTags = ['mobility', 'planning', ...tripPlanningApiOperationTags]
+
+//=============================================================================
 // Existing resources
 //=============================================================================
 
@@ -21,16 +42,24 @@ resource apiManagementService 'Microsoft.ApiManagement/service@2025-03-01-previe
 }
 
 //=============================================================================
+// Functions
+//=============================================================================
+
+@description('Extract all operation-level tags from an OpenAPI specification')
+func extractOperationTags(openApiContent object) array =>
+  flatten(map(
+    items(openApiContent.?paths ?? {}),
+    pathItem => flatten(map(items(pathItem.value), operation => getOperationTags(operation.value)))
+  ))
+
+@description('Extract tags from an operation object, returning empty array if no tags exist')
+func getOperationTags(operation object) array => operation.?tags ?? []
+
+//=============================================================================
 // Resources
 //=============================================================================
 
 // Tags
-
-var apiTags = [
-  'mobility'
-  'public'
-  'planning'
-]
 
 resource apimTags 'Microsoft.ApiManagement/service/tags@2025-03-01-preview' = [
   for tagName in apiTags: {
@@ -58,15 +87,20 @@ resource transitStatusApi 'Microsoft.ApiManagement/service/apis@2025-03-01-previ
     ]
     subscriptionRequired: false
   }
-}
-
-resource transitStatusApiMobilityTag 'Microsoft.ApiManagement/service/apis/tags@2025-03-01-preview' = {
-  parent: transitStatusApi
-  name: 'mobility'
   dependsOn: [
     apimTags
   ]
 }
+
+resource addTransitStatusApiTags 'Microsoft.ApiManagement/service/apis/tags@2025-03-01-preview' = [
+  for tagName in transitStatusApiTags: {
+    parent: transitStatusApi
+    name: tagName
+    dependsOn: [
+      apimTags
+    ]
+  }
+]
 
 // Bike Rental API tagged with 'Mobility'
 
@@ -84,16 +118,13 @@ resource bikeRentalApi 'Microsoft.ApiManagement/service/apis@2025-03-01-preview'
     ]
     subscriptionRequired: false
   }
+  dependsOn: [
+    apimTags
+  ]
 }
 
-// If operation-level tags should be added, extract them from the OpenAPI definition and combine with the 'mobility' tag. 
-// Otherwise, just use the 'mobility' tag.
-var bikeRentalApiOperationTags = union(
-  addOperationLevelTagsToApi ? flatten(loadYamlContent('apis/bike-rental-api.openapi.yaml', '$.paths.*.*.tags')) : [],
-  ['mobility']
-)
-resource bikeRentalApiTags 'Microsoft.ApiManagement/service/apis/tags@2025-03-01-preview' = [
-  for tagName in bikeRentalApiOperationTags: {
+resource addBikeRentalApiTags 'Microsoft.ApiManagement/service/apis/tags@2025-03-01-preview' = [
+  for tagName in bikeRentalApiTags: {
     parent: bikeRentalApi
     name: tagName
     dependsOn: [
@@ -111,23 +142,20 @@ resource tripPlanningApi 'Microsoft.ApiManagement/service/apis@2025-03-01-previe
     displayName: 'Trip Planning API'
     path: 'trip-planning'
     format: 'openapi'
-    value: loadTextContent('apis/trip-planning-api.openapi.yaml')
+    value: string(tripPlanningApiOpenApiContent)
     type: 'http'
     protocols: [
       'https'
     ]
     subscriptionRequired: false
   }
+  dependsOn: [
+    apimTags
+  ]
 }
 
-// If operation-level tags should be added, extract them from the OpenAPI definition and combine with the 'mobility' and 'planning' tags.
-// Otherwise, just use the 'mobility' and 'planning' tags.
-var tripPlanningApiOperationTags = union(
-  addOperationLevelTagsToApi ? flatten(loadYamlContent('apis/trip-planning-api.openapi.yaml', '$.paths.*.*.tags')) : [],
-  ['mobility', 'planning']
-)
-resource tripPlanningApiTags 'Microsoft.ApiManagement/service/apis/tags@2025-03-01-preview' = [
-  for tagName in tripPlanningApiOperationTags: {
+resource addTripPlanningApiTags 'Microsoft.ApiManagement/service/apis/tags@2025-03-01-preview' = [
+  for tagName in tripPlanningApiTags: {
     parent: tripPlanningApi
     name: tagName
     dependsOn: [
