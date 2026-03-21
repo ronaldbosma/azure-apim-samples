@@ -83,7 +83,6 @@ resource bikeRentalApi 'Microsoft.ApiManagement/service/apis@2025-03-01-preview'
     protocols: [
       'https'
     ]
-    subscriptionRequired: false
   }
   dependsOn: [
     apimTags // Depend on apimTags to prevent conflicts, because some tags might also be created via the OpenAPI spec for this API
@@ -114,7 +113,6 @@ resource transitStatusApi 'Microsoft.ApiManagement/service/apis@2025-03-01-previ
     protocols: [
       'https'
     ]
-    subscriptionRequired: false
   }
   dependsOn: [
     apimTags // Depend on apimTags to prevent conflicts, because some tags might also be created via the OpenAPI spec for this API
@@ -145,7 +143,6 @@ resource tripPlanningApi 'Microsoft.ApiManagement/service/apis@2025-03-01-previe
     protocols: [
       'https'
     ]
-    subscriptionRequired: false
   }
   dependsOn: [
     apimTags // Depend on apimTags to prevent conflicts, because some tags might also be created via the OpenAPI spec for this API
