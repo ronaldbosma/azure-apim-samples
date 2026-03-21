@@ -16,13 +16,13 @@ param addOperationLevelTagsToApi bool = false
 // Variables
 //=============================================================================
 
-var apiTags = [
-  'mobility'
-  'public'
-  'planning'
-]
+var apiTags = ['mobility', 'planning']
 
-var transitStatusApiTags = ['mobility']
+var transitStatusApiOpenApiContent = loadYamlContent('apis/transit-status-api.openapi.yaml')
+var transitStatusApiOperationTags = addOperationLevelTagsToApi
+  ? extractOperationTags(transitStatusApiOpenApiContent)
+  : []
+var transitStatusApiTags = union(['mobility'], transitStatusApiOperationTags)
 
 var bikeRentalApiOperationTags = addOperationLevelTagsToApi
   ? flatten(loadYamlContent('apis/bike-rental-api.openapi.yaml', '$.paths.*.*.tags'))
@@ -88,7 +88,7 @@ resource transitStatusApi 'Microsoft.ApiManagement/service/apis@2025-03-01-previ
     subscriptionRequired: false
   }
   dependsOn: [
-    apimTags
+    apimTags // Depend on apimTags to prevent conflicts, because some tags might also be created via the OpenAPI spec for this API
   ]
 }
 
@@ -97,7 +97,7 @@ resource addTransitStatusApiTags 'Microsoft.ApiManagement/service/apis/tags@2025
     parent: transitStatusApi
     name: tagName
     dependsOn: [
-      apimTags
+      apimTags // Depend on apimTags because they need to exist before we can add them to the API
     ]
   }
 ]
@@ -119,7 +119,7 @@ resource bikeRentalApi 'Microsoft.ApiManagement/service/apis@2025-03-01-preview'
     subscriptionRequired: false
   }
   dependsOn: [
-    apimTags
+    apimTags // Depend on apimTags to prevent conflicts, because some tags might also be created via the OpenAPI spec for this API
   ]
 }
 
@@ -128,7 +128,7 @@ resource addBikeRentalApiTags 'Microsoft.ApiManagement/service/apis/tags@2025-03
     parent: bikeRentalApi
     name: tagName
     dependsOn: [
-      apimTags
+      apimTags // Depend on apimTags because they need to exist before we can add them to the API
     ]
   }
 ]
@@ -150,7 +150,8 @@ resource tripPlanningApi 'Microsoft.ApiManagement/service/apis@2025-03-01-previe
     subscriptionRequired: false
   }
   dependsOn: [
-    apimTags
+    apimTags // Depend on apimTags to prevent conflicts, because some tags might also be created via the OpenAPI spec for this API
+    bikeRentalApi // Depend on bikeRentalApi to prevent conflicts, because the 'public' tag is also created for that API
   ]
 }
 
@@ -159,7 +160,7 @@ resource addTripPlanningApiTags 'Microsoft.ApiManagement/service/apis/tags@2025-
     parent: tripPlanningApi
     name: tagName
     dependsOn: [
-      apimTags
+      apimTags // Depend on apimTags because they need to exist before we can add them to the API
     ]
   }
 ]
