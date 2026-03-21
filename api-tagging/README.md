@@ -13,6 +13,8 @@ See the table below for an overview of the tags assigned to each API:
 | Transit Status API | mobility           |                           |
 | Trip Planning API  | mobility, planning | planning, pricing, public |
 
+> Note: The APIs don't actually implement any backend logic, they are just used to demonstrate API tagging in APIM.
+
 ## Prerequisites
 
 Before deploying, make sure you have the following:
