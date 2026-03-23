@@ -15,6 +15,8 @@ See the table below for an overview of the tags assigned to each API:
 
 > Note: The APIs don't actually implement any backend logic, they are just used to demonstrate API tagging in APIM.
 
+See the blog post [Grouping APIs in Azure API Management Using Tags](https://ronaldbosma.github.io/blog/2026/03/23/grouping-apis-in-azure-api-management-using-tags/) for a more detailed explanation.
+
 ## Prerequisites
 
 Before deploying, make sure you have the following:
