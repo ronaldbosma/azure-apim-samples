@@ -18,6 +18,8 @@ Samples that are part of my blog post series [Client Certificates and mTLS in AP
   Demonstrates the use of rate limiting policies in API Management.
 - [Sanitize Response Headers](sanitize-response-headers)  
   Demonstrates how to sanitize response headers using allowlist and blocklist approaches.
+- [Scripts](scripts)  
+  A collection of scripts for managing and automating tasks in Azure API Management.
 - [Snippets](snippets)  
   A collection of reusable policy fragments and other snippets.
 - [Validate API Management Policies with PSRule](validate-apim-policies-with-psrule)  
