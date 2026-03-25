@@ -13,7 +13,7 @@ $deletedApimInstances = az apim deletedservice list `
 
 
 # List all found deleted API Management instances and ask for confirmation
-Write-Output "The following deleted API Management instaces were found:"
+Write-Output "The following deleted API Management instances were found:"
 $deletedApimInstances | Format-Table -AutoSize
 
 $confirmation = Read-Host "Do you want to proceed with purging these API Management instances? (yes/no)"
