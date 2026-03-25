@@ -1,3 +1,12 @@
+<#
+.SYNOPSIS
+    Purges all soft-deleted Azure API Management instances in the current subscription.
+
+.DESCRIPTION
+    Lists all soft-deleted API Management instances, prompts the user for confirmation,
+    and then permanently purges each instance using the Azure CLI.
+#>
+
 $deletedApimInstances = az apim deletedservice list `
     --query "[].{name:name, location:location}" `
     --output json | ConvertFrom-Json
